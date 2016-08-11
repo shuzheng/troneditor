@@ -1,0 +1,39 @@
+/* windows */
+body{margin:1px;outline:#5E5C5A solid thick;}
+.body_max{margin:0;outline:none;}
+
+#titlebar{height:30px;background:#4C4A48;}
+#titlebar #caption{float:left;height:30px;line-height:30px;color:#fff;font-size:13px;text-shadow:0 0 7px #000;}
+#titlebar #caption img{float:left;width:16px;height:16px;margin:7px;}
+
+#titlebar #buttons{float:right;}
+#titlebar #buttons #min,
+#titlebar #buttons #max,
+#titlebar #buttons #close{
+	display:block;float:left;width:45px;height:30px;/*-webkit-transition-duration:.2s;*/
+}
+
+#titlebar #buttons #min{background:url(min.png) no-repeat;}
+#titlebar #buttons .max1{background:url(max1.png) no-repeat;}
+#titlebar #buttons .max2{background:url(max2.png) no-repeat;}
+#titlebar #buttons #close{background:url(close.png) no-repeat;}
+
+#titlebar #buttons #min:hover{background-color:#5E5C5A;}
+#titlebar #buttons #max:hover{background-color:#5E5C5A;}
+#titlebar #buttons #close:hover{background-color:#E91022;}
+
+#titlebar #buttons #min:active{background-color:#706E6C;}
+#titlebar #buttons #max:active{background-color:#706E6C;}
+#titlebar #buttons #close:active{background-color:#A92830;}
+
+#main{background:#FFF;}
+
+#menubar{height:26px;background:#FFF;border-bottom:1px solid #DBDBDD;}
+#menubar>ul>li>a{height:26px;line-height:26px;margin:0 2px;padding:0 8px;font-size:12px;color:#333;border-width:0 1px 1px;border-style:solid;border-color:transparent transparent #DBDBDD;}
+#menubar>ul>.hover>a{background:#F5F7F7;border-color:#F5F7F7 #F5F7F7 #DBDBDD;}
+#menubar>ul>.active>a{background:#F5F7F7;border-color:#DBDBDD #DBDBDD #F5F7F7;}
+
+#menubar>ul>li>ul{padding:1px;border:1px solid #DBDBDD;border-top:none;background:#F5F7F7;}
+#menubar>ul>li>ul>li{width:100px;height:22px;line-height:22px;padding:2px 10px;}
+#menubar>ul>li>ul>li:hover{background:#CDE5FD;}
+#menubar>ul>li>ul>li>a{height:22px;color:#3C3C3C;}

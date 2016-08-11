@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="shortcut icon" href="resources/icons/icon.png" id="icon"/>
+<link rel="stylesheet" href="resources/css/public.css"/>
+<link rel="stylesheet" href="resources/css/main.css"/>
+<title>troneditor</title>
+</head>
+<body>
+<div id="main">
+	<div id="menubar">
+		<ul>
+			<li class="active">
+				<a href="javascript:;">File</a>
+				<ul>
+					<li><a href="javascript:;">New</a></li>
+					<li><a href="javascript:;">Open...</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="javascript:;">Edit</a>
+				<ul>
+					<li><a href="javascript:;">New</a></li>
+					<li><a href="javascript:;">Open...</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="javascript:;">View</a>
+				<ul>
+					<li><a href="javascript:;">New</a></li>
+					<li><a href="javascript:;">Open...</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="javascript:;">Search</a>
+				<ul>
+					<li><a href="javascript:;">About</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="javascript:;">Project</a>
+				<ul>
+					<li><a href="javascript:;">About</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="javascript:;">Tools</a>
+				<ul>
+					<li><a href="javascript:;">About</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="javascript:;">Window</a>
+				<ul>
+					<li><a href="javascript:;">About</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="javascript:;">Help</a>
+				<ul>
+					<li><a href="javascript:;">About</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div id="content"></div>
+</div>
+<script src="resources/skins/skins.js"></script>
+<script>
+require('./renderer');
+var $ = require('jquery');
+
+var menubar_status = 'hover';
+$(function() {
+	// 鼠标悬浮添加菜单激活状态
+	$('#menubar>ul>li').mouseenter(function() {
+		$(this).addClass(menubar_status);
+	}).mouseleave(function() {
+		$('#menubar>ul>li').removeClass('hover').removeClass('active');
+	});
+	// 切换菜单激活状态
+	$('#menubar>ul>li').click(function(event) {
+		if (menubar_status == 'hover') {
+			menubar_status = 'active';
+		} else {
+			menubar_status = 'hover';
+		}
+		$('#menubar>ul>li').removeClass('hover').removeClass('active');
+		$(this).addClass(menubar_status);
+		event.stopPropagation();
+	});
+	// 空白处点击，取消菜单激活状态
+	$(document).click(function(event) {
+		menubar_status = 'hover';
+	});
+});
+</script>
+</body>
+</html>
