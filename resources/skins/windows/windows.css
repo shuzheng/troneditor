@@ -30,10 +30,13 @@ body{margin:1px;outline:#5E5C5A solid thick;}
 
 #menubar{height:26px;background:#FFF;border-bottom:1px solid #DBDBDD;}
 #menubar>ul>li>a{height:26px;line-height:26px;margin:0 2px;padding:0 8px;font-size:12px;color:#333;border-width:0 1px 1px;border-style:solid;border-color:transparent transparent #DBDBDD;}
+#menubar>ul>li>a:active{background:#F1F1F1;}
 #menubar>ul>.hover>a{background:#F5F7F7;border-color:#F5F7F7 #F5F7F7 #DBDBDD;}
 #menubar>ul>.active>a{background:#F5F7F7;border-color:#DBDBDD #DBDBDD #F5F7F7;}
 
 #menubar>ul>li>ul{padding:1px;border:1px solid #DBDBDD;border-top:none;background:#F5F7F7;}
-#menubar>ul>li>ul>li{width:100px;height:22px;line-height:22px;padding:2px 10px;}
-#menubar>ul>li>ul>li:hover{background:#CDE5FD;}
-#menubar>ul>li>ul>li>a{height:22px;color:#3C3C3C;}
+#menubar>ul>li>ul>li{width:100px;}
+#menubar>ul>li>ul>li:hover{background:#F1F1F1;/*CDE5FD*/}
+#menubar>ul>li>ul>li:active{background:#DADADA;}
+#menubar>ul>li>ul>li>a{height:22px;line-height:22px;padding:2px 10px;color:#3C3C3C;}
+#menubar>ul>li>ul>.separator{height:1px;margin:3px 0;background:#EAEAEA;}
