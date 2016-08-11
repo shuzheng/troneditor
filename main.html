@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8"/>
 <link rel="shortcut icon" href="resources/icons/icon.png" id="icon"/>
-<link rel="stylesheet" href="resources/css/public.css"/>
 <link rel="stylesheet" href="resources/css/main.css"/>
 <title>troneditor</title>
 </head>
@@ -59,9 +58,21 @@
 				</ul>
 			</li>
 			<li>
+				<a href="javascript:;">Skins</a>
+				<ul class="skins">
+					<li id="default"><span></span></li>
+					<li id="black"><span></span></li>
+					<li id="green"><span></span></li>
+					<li id="red"><span></span></li>
+					<li id="blue"><span></span></li>
+					<li id="orange"><span></span></li>
+					<li id="purple"><span></span></li>
+				</ul>
+			</li>
+			<li>
 				<a href="javascript:;">Help</a>
 				<ul>
-					<li><a href="javascript:;">About</a></li>
+					<li id="about"><a href="javascript:;">About</a></li>
 				</ul>
 			</li>
 		</ul>
@@ -97,6 +108,20 @@ $(function() {
 	// 空白处点击，取消菜单激活状态
 	$(document).click(function(event) {
 		menubar_status = 'hover';
+	});
+	// 默认皮肤颜色
+	var color = localStorage.color || 'default';
+	$('#' + color).addClass('cur');
+	// 切换皮肤颜色
+	$('.skins li').click(function() {
+		localStorage.color = $(this).attr('id');
+		$('body').attr('class', $(this).attr('id'));
+		$('.skins li').removeClass('cur');
+		$(this).addClass('cur');
+	});
+	// 关于
+	$('#about').click(function() {
+		alert('Zhang Shuzheng');
 	});
 });
 </script>

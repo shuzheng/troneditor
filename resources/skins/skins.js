@@ -46,4 +46,9 @@
 		
 	titlebar.appendChild(buttons);
 	body.insertBefore(titlebar, document.getElementById('main'));
+	// ============== 皮肤颜色 ==============
+	var color = 'default';
+	if(localStorage.color)
+		color = localStorage.color;
+	body.className = color;
 }());
