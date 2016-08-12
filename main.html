@@ -10,51 +10,62 @@
 <div id="main">
 	<div id="menubar">
 		<ul>
-			<li class="active">
+			<li>
 				<a href="javascript:;">File</a>
 				<ul>
 					<li><a href="javascript:;">New</a></li>
 					<li><a href="javascript:;">Open...</a></li>
+					<li><a href="javascript:;">Close</a></li>
+					<li><a href="javascript:;">Close All</a></li>
 					<li class="separator"></li>
+					<li><a href="javascript:;">Save</a></li>
+					<li><a href="javascript:;">Save All</a></li>
+					<li><a href="javascript:;">Save As...</a></li>
+					<li class="separator"></li>
+					<li><a href="javascript:;">Save & Exit</a></li>
 					<li><a href="javascript:;">Exit</a></li>
 				</ul>
 			</li>
 			<li>
 				<a href="javascript:;">Edit</a>
 				<ul>
-					<li><a href="javascript:;">New</a></li>
-					<li><a href="javascript:;">Open...</a></li>
+					<li><a href="javascript:;">Undo</a></li>
+					<li><a href="javascript:;">Redo</a></li>
+					<li class="separator"></li>
+					<li><a href="javascript:;">Cut</a></li>
+					<li><a href="javascript:;">Copy</a></li>
+					<li><a href="javascript:;">Paste</a></li>
+					<li><a href="javascript:;">Delete</a></li>
 				</ul>
 			</li>
 			<li>
 				<a href="javascript:;">View</a>
 				<ul>
-					<li><a href="javascript:;">New</a></li>
-					<li><a href="javascript:;">Open...</a></li>
+					<li><a href="javascript:;">Theme</a></li>
+					<li class="separator"></li>
+					<li><a href="javascript:;">Font</a></li>
+					<li><a href="javascript:;">Line Number</a></li>
+					<li><a href="javascript:;">Word Wrap</a></li>
+					<li class="separator"></li>
+					<li><a href="javascript:;">Full Screen</a></li>
 				</ul>
 			</li>
 			<li>
 				<a href="javascript:;">Search</a>
 				<ul>
-					<li><a href="javascript:;">About</a></li>
-				</ul>
-			</li>
-			<li>
-				<a href="javascript:;">Project</a>
-				<ul>
-					<li><a href="javascript:;">About</a></li>
+					<li><a href="javascript:;">Find</a></li>
+					<li><a href="javascript:;">Replace...</a></li>
+					<li class="separator"></li>
+					<li><a href="javascript:;">Go To</a></li>
+					<li><a href="javascript:;">First Place</a></li>
+					<li><a href="javascript:;">Last Place</a></li>
 				</ul>
 			</li>
 			<li>
 				<a href="javascript:;">Tools</a>
 				<ul>
-					<li><a href="javascript:;">About</a></li>
-				</ul>
-			</li>
-			<li>
-				<a href="javascript:;">Window</a>
-				<ul>
-					<li><a href="javascript:;">About</a></li>
+					<li><a href="javascript:;">uglify-js</a></li>
+					<li><a href="javascript:;">clean-css</a></li>
 				</ul>
 			</li>
 			<li>
@@ -72,16 +83,76 @@
 			<li>
 				<a href="javascript:;">Help</a>
 				<ul>
-					<li id="about"><a href="javascript:;">About</a></li>
+					<li id="about"><a href="javascript:;">Keyboard Map</a></li>
+					<li class="separator"></li>
+					<li id="about"><a href="javascript:;">About eroneditor</a></li>
 				</ul>
 			</li>
 		</ul>
 	</div>
 	<div id="content">
-		
+		<textarea id="code" name="code"></textarea>
 	</div>
 </div>
 <script src="resources/skins/skins.js"></script>
+
+<!-- CodeMirror -->
+<script src="resources/plugins/CodeMirror/lib/codemirror.js"></script>
+<link rel="stylesheet" href="resources/plugins/CodeMirror/lib/codemirror.css">
+<link rel="stylesheet" href="resources/plugins/CodeMirror/theme/bespin.css">
+<link rel="stylesheet" href="resources/plugins/CodeMirror/theme/eclipse.css">
+<link rel="stylesheet" href="resources/plugins/CodeMirror/theme/hopscotch.css">
+<link rel="stylesheet" href="resources/plugins/CodeMirror/theme/mbo.css">
+<!-- // CodeMirror -->
+
+<!-- CodeMirror 高亮文件类型 -->
+<script src="resources/plugins/CodeMirror/mode/javascript/javascript.js"></script>
+<script src="resources/plugins/CodeMirror/mode/xml/xml.js"></script>
+<script src="resources/plugins/CodeMirror/mode/htmlmixed/htmlmixed.js"></script>
+<script src="resources/plugins/CodeMirror/mode/css/css.js"></script>
+<!-- // CodeMirror 高亮文件类型 -->
+
+<!-- CodeMirror 扩展插件 -->
+<script src="resources/plugins/CodeMirror/addon/edit/closebrackets.js"></script><!-- 自动闭合括号 -->
+<script src="resources/plugins/CodeMirror/addon/edit/closetag.js"></script><!-- 自动闭合标签 -->
+<script src="resources/plugins/CodeMirror/addon/edit/matchbrackets.js"></script><!-- 提示配对括号 -->
+<script src="resources/plugins/CodeMirror/addon/edit/matchtags.js"></script><!-- 提示配对标签 -->
+<script src="resources/plugins/CodeMirror/addon/edit/trailingspace.js"></script><!-- 结尾多余空格显示错误下划线 -->
+
+<script src="resources/plugins/CodeMirror/addon/fold/foldcode.js"></script>
+<script src="resources/plugins/CodeMirror/addon/fold/foldgutter.js"></script>
+<script src="resources/plugins/CodeMirror/addon/fold/brace-fold.js"></script>
+<script src="resources/plugins/CodeMirror/addon/fold/xml-fold.js"></script>
+<script src="resources/plugins/CodeMirror/addon/fold/comment-fold.js"></script>
+
+<script src="resources/plugins/CodeMirror/addon/hint/anyword-hint.js"></script>
+<script src="resources/plugins/CodeMirror/addon/hint/css-hint.js"></script>
+<script src="resources/plugins/CodeMirror/addon/hint/html-hint.js"></script>
+<script src="resources/plugins/CodeMirror/addon/hint/javascript-hint.js"></script>
+<script src="resources/plugins/CodeMirror/addon/hint/show-hint.js"></script>
+<script src="resources/plugins/CodeMirror/addon/hint/sql-hint.js"></script>
+<script src="resources/plugins/CodeMirror/addon/hint/xml-hint.js"></script>
+
+<script src="resources/plugins/CodeMirror/addon/selection/active-line.js"></script><!-- 高亮当前行 -->
+
+<script src="resources/plugins/CodeMirror/addon/mode/loadmode.js"></script><!-- 动态加载高亮类型 -->
+<script src="resources/plugins/CodeMirror/mode/meta.js"></script>
+
+<link rel="stylesheet" href="resources/plugins/CodeMirror/addon/scroll/simplescrollbars.css">
+<script src="resources/plugins/CodeMirror/addon/scroll/simplescrollbars.js"></script>
+
+<link rel="stylesheet" href="resources/plugins/CodeMirror/addon/display/fullscreen.css">
+<script src="resources/plugins/CodeMirror/addon/display/fullscreen.js"></script>
+
+<script src="resources/plugins/CodeMirror/keymap/sublime.js"></script>
+
+<!-- // CodeMirror 扩展插件 -->
+
+<link rel="stylesheet" href="resources/css/MyCodeMirror.css"/>
+
+<style>
+
+</style>
 <script>
 require('./renderer');
 var $ = require('jquery');
@@ -121,8 +192,59 @@ $(function() {
 	});
 	// 关于
 	$('#about').click(function() {
-		alert('Zhang Shuzheng');
+		alert('软件版权声明：Copyright © 2016, Zhang Shuzheng All rights reserved');
 	});
+
+	var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+		mode: 'text/css',
+		//mode: 'text/javascript',
+		//mode: 'text/html',
+		theme: 'mbo',
+		indentUnit: 4,
+		tabSize: 4,
+		indentWithTabs: true,// 换行tab键
+		maxHighlightLength: Infinity,
+
+		styleActiveLine: true,
+		lineNumbers: true,
+		lineWrapping: false,
+		autofocus:true,
+		autoCloseBrackets: true,
+		matchBrackets: true,
+		showTrailingSpace: true,
+		matchTags: {bothTags: true},
+		autoCloseTags:true,
+
+		extraKeys: {"Ctrl-Shift-Space": "autocomplete"},
+		value: document.documentElement.innerHTML,
+
+		scrollbarStyle: "simple",
+		
+		keyMap: 'sublime',
+		extraKeys: {
+			"F11": function(cm) {
+				cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+			},
+			"Esc": function(cm) {
+				if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+			}
+		}
+
+		//lineSeparator: '---',
+		//matchBrackets: true,
+		//showCursorWhenSelecting: true
+	});
+
+
+	$('#result').click(function() {
+		// 撤消&重做
+		/*var doc = editor.getDoc();
+		console.log(doc.undo());
+		console.log(doc.redo());*/
+		// 获取值
+		//console.log(editor.getValue());
+	});
+
 });
 </script>
 </body>

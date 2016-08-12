@@ -1,0 +1,14 @@
+/***** CodeMirror 补充样式 *****/
+/* 结尾多余空格显示错误下划线 */
+.cm-trailingspace {
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAYAAAB/qH1jAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QUXCToH00Y1UgAAACFJREFUCNdjPMDBUc/AwNDAAAFMTAwMDA0OP34wQgX/AQBYgwYEx4f9lQAAAABJRU5ErkJggg==);
+	background-position: bottom left;
+	background-repeat: repeat-x;
+}
+/* 提示配对标签 */
+.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}
+/* 滚动条 */
+.CodeMirror-simplescroll-vertical{width:12px;}
+.CodeMirror-simplescroll-horizontal{height:12px;}
+/* 高度 */
+.CodeMirror{height:100%;}
