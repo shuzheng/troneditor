@@ -196,10 +196,10 @@ $(function() {
 	});
 
 	var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
-		mode: 'text/css',
+		//mode: 'text/css',
 		//mode: 'text/javascript',
-		//mode: 'text/html',
-		theme: 'mbo',
+		mode: 'text/html',
+		theme: 'eclipse',
 		indentUnit: 4,
 		tabSize: 4,
 		indentWithTabs: true,// 换行tab键
@@ -207,7 +207,7 @@ $(function() {
 
 		styleActiveLine: true,
 		lineNumbers: true,
-		lineWrapping: false,
+		lineWrapping: true,
 		autofocus:true,
 		autoCloseBrackets: true,
 		matchBrackets: true,
@@ -236,14 +236,14 @@ $(function() {
 	});
 
 
-	$('#result').click(function() {
+	//$('#result').click(function() {
 		// 撤消&重做
 		/*var doc = editor.getDoc();
 		console.log(doc.undo());
 		console.log(doc.redo());*/
 		// 获取值
 		//console.log(editor.getValue());
-	});
+	//});
 
 });
 </script>

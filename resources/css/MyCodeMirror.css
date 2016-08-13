@@ -6,7 +6,6 @@
 	background-repeat: repeat-x;
 }
 /* 提示配对标签 */
-.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}
 /* 滚动条 */
 .CodeMirror-simplescroll-vertical{width:12px;}
 .CodeMirror-simplescroll-horizontal{height:12px;}
