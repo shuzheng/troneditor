@@ -195,46 +195,37 @@ $(function() {
 		alert('软件版权声明：Copyright © 2016, Zhang Shuzheng All rights reserved');
 	});
 
-	var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
-		//mode: 'text/css',
-		//mode: 'text/javascript',
-		mode: 'text/html',
-		theme: 'eclipse',
-		indentUnit: 4,
-		tabSize: 4,
-		indentWithTabs: true,// 换行tab键
-		maxHighlightLength: Infinity,
-
-		styleActiveLine: true,
-		lineNumbers: true,
-		lineWrapping: true,
-		autofocus:true,
-		autoCloseBrackets: true,
-		matchBrackets: true,
-		showTrailingSpace: true,
-		matchTags: {bothTags: true},
-		autoCloseTags:true,
-
-		extraKeys: {"Ctrl-Shift-Space": "autocomplete"},
-		value: document.documentElement.innerHTML,
-
-		scrollbarStyle: "simple",
-		
-		keyMap: 'sublime',
-		extraKeys: {
-			"F11": function(cm) {
-				cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+	// 编辑器
+	var code = CodeMirror.fromTextArea(document.getElementById('code'), {
+		mode: 'text/html',	// 语言模式
+		theme: 'default',	// 高亮主题
+		lineNumbers: true,	// 显示行数
+		smartIndent: true,	// 回车智能缩进
+		indentUnit: 4,	// 首行缩进单位(1个tab)
+		tabSize: 4,		// tab键宽度为4个空格宽度
+		indentWithTabs: true,// 换行自动缩进为tab键
+		maxHighlightLength: Infinity,	// 支持无限着色
+		lineWrapping: false,	// 是否换行
+		styleActiveLine: true,	// 当前行加背景
+		autofocus: true,		// 自动获取焦点
+		matchTags: {bothTags: true},	// 提示配对标签
+		autoCloseBrackets: true, // 自动匹配括号、引号等
+		autoCloseTags: true,		// 自动闭合标签
+		showTrailingSpace: true,	// 多余空白提示错误
+		lineWiseCopyCut: true,	// 不选择任何字符时，默认复制当前行
+		scrollbarStyle: 'simple',	// 美化滚动条
+		keyMap: 'sublime',		// 使用sublime快捷键
+		extraKeys: {	// 扩展全屏快捷键
+			'F11': function(cm) {
+				cm.setOption('fullScreen', !cm.getOption('fullScreen'));
 			},
-			"Esc": function(cm) {
-				if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+			'Esc': function(cm) {
+				if (cm.getOption('fullScreen')) cm.setOption('fullScreen', false);
 			}
-		}
-
-		//lineSeparator: '---',
-		//matchBrackets: true,
-		//showCursorWhenSelecting: true
+		},
+		
+		matchBrackets: true
 	});
-
 
 	//$('#result').click(function() {
 		// 撤消&重做
