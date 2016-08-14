@@ -3,7 +3,7 @@ body{margin:1px;outline-style:solid;outline-width:1px;}
 .body_max{margin:0;outline:none;}
 
 #titlebar{height:30px;}
-#titlebar #caption{float:left;height:30px;line-height:30px;color:#fff;font-size:13px;text-shadow:0 0 7px #000;}
+#titlebar #caption{float:left;height:30px;line-height:30px;color:#fff;font-size:12px;/*text-shadow:0 0 7px #000;*/}
 #titlebar #caption img{float:left;width:16px;height:16px;margin:7px;}
 
 #titlebar #buttons{float:right;}
