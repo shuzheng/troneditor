@@ -28,7 +28,7 @@ function createWindow () {
 	mainWindow.loadURL(`file://${__dirname}/main.html`);
 
 	// 启用开发工具。
-	//mainWindow.webContents.openDevTools();
+	mainWindow.webContents.openDevTools();
 
 	// 当 window 被关闭，这个事件会被触发。
 	mainWindow.on('closed', (event) => {

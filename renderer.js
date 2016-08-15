@@ -2,10 +2,13 @@
 const electron = require('electron');
 // 通信进程
 const {ipcRenderer} = electron;
-/******************** 第三方node模块 ********************/
+// shellAPI
+const {shell} = require('electron');
+// ============================ 第三方node模块 ============================/
 const $ = require('jquery');
-const UglifyJS = require("uglify-js");
-/******************** 标题栏操作 ********************/
+const UglifyJS = require('uglify-js');
+var CleanCSS = require('clean-css');
+// ============================ 标题栏操作 ============================/
 let min = document.getElementById('min');
 let max = document.getElementById('max');
 let close = document.getElementById('close');
@@ -27,7 +30,7 @@ ipcRenderer.on('unmax', (event, arg) => {
 ipcRenderer.on('max', (event, arg) => {
 	max.setAttribute('class', 'max2');max.setAttribute('title', '还原');
 });
-/******************** 菜单栏操作 ********************/
+// ============================ 菜单栏操作 ============================/
 var menubar_status = 'hover';
 $(function() {
 	// 鼠标悬浮添加菜单激活状态
@@ -45,11 +48,19 @@ $(function() {
 		}
 		$('#menubar>ul>li').removeClass('hover').removeClass('active');
 		$(this).addClass(menubar_status);
+		// 编辑器获取焦点
+		if (editor) {
+			editor.focus();
+		}
 		event.stopPropagation();
 	});
 	// 空白处点击，取消菜单激活状态
 	$(document).click(function(event) {
 		menubar_status = 'hover';
+		// 编辑器获取焦点
+		if (editor) {
+			editor.focus();
+		}
 	});
 	// 默认皮肤颜色
 	var color = localStorage.color || 'default';
@@ -61,15 +72,20 @@ $(function() {
 		$('.skins li').removeClass('cur');
 		$(this).addClass('cur');
 	});
+	// 文档
+	$('#document').click(function() {
+		shell.openExternal('http://www.zhangshuzheng.cn/');
+	});
 	// 关于
 	$('#about').click(function() {
 		alert('软件版权声明：Copyright © 2016, Zhang Shuzheng All rights reserved');
 	});
 });
-/******************** 编辑器操作 ********************/
+// ============================ 编辑器操作 ============================/
 // 编辑器
+var editor;
 $(function() {
-	var code = CodeMirror.fromTextArea(document.getElementById('code'), {
+	editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
 		mode: 'text/html',	// 语言模式
 		theme: 'default',	// 高亮主题
 		lineNumbers: true,	// 显示行数
@@ -94,20 +110,30 @@ $(function() {
 			},
 			'Esc': function(cm) {
 				if (cm.getOption('fullScreen')) cm.setOption('fullScreen', false);
+			},
+			'Ctrl-S': function(cm) {
+				// 撤消&重做
+				/*var doc = editor.getDoc();
+				console.log(doc.undo());
+				console.log(doc.redo());*/
+				// 获取值
+				var value = editor.getValue();
+				console.log(value);
+				// js压缩
+				var result = UglifyJS.minify("var b = function () { alert(1); };", {fromString: true}).code;
+				console.log(result);
+				// css压缩
+				var CleanCSS = require('clean-css');
+				var source = 'a{ font-weight: bold; width: 100px; height: 200px; font-familay: "微软雅黑"}';
+				var minified = new CleanCSS().minify(source).styles;
+				console.log(minified);
 			}
 		},
 		matchBrackets: true
 	});
-
-	$('#result').click(function() {
-		// 撤消&重做
-		/*var doc = editor.getDoc();
-		console.log(doc.undo());
-		console.log(doc.redo());*/
-		// 获取值
-		//console.log(editor.getValue());
-		// js压缩
-		var result = UglifyJS.minify("var b = function () { alert(1); };", {fromString: true}).code;
-		console.log(result);
+	editor.on('change', function(cm) {
+		console.log(cm);
+		console.log(1);
 	});
+
 });
