@@ -4,6 +4,60 @@
 <meta charset="utf-8"/>
 <link rel="shortcut icon" href="resources/icons/icon.png" id="icon"/>
 <link rel="stylesheet" href="resources/css/main.css"/>
+
+<!-- CodeMirror -->
+<script src="resources/plugins/CodeMirror/lib/codemirror.js"></script>
+<link rel="stylesheet" href="resources/plugins/CodeMirror/lib/codemirror.css">
+<link rel="stylesheet" href="resources/plugins/CodeMirror/theme/bespin.css">
+<link rel="stylesheet" href="resources/plugins/CodeMirror/theme/eclipse.css">
+<link rel="stylesheet" href="resources/plugins/CodeMirror/theme/hopscotch.css">
+<link rel="stylesheet" href="resources/plugins/CodeMirror/theme/mbo.css">
+<!-- // CodeMirror -->
+
+<!-- CodeMirror 高亮文件类型 -->
+<script src="resources/plugins/CodeMirror/mode/javascript/javascript.js"></script>
+<script src="resources/plugins/CodeMirror/mode/xml/xml.js"></script>
+<script src="resources/plugins/CodeMirror/mode/htmlmixed/htmlmixed.js"></script>
+<script src="resources/plugins/CodeMirror/mode/css/css.js"></script>
+<!-- // CodeMirror 高亮文件类型 -->
+
+<!-- CodeMirror 扩展插件 -->
+<script src="resources/plugins/CodeMirror/addon/edit/closebrackets.js"></script><!-- 自动闭合括号 -->
+<script src="resources/plugins/CodeMirror/addon/edit/closetag.js"></script><!-- 自动闭合标签 -->
+<script src="resources/plugins/CodeMirror/addon/edit/matchbrackets.js"></script><!-- 提示配对括号 -->
+<script src="resources/plugins/CodeMirror/addon/edit/matchtags.js"></script><!-- 提示配对标签 -->
+<script src="resources/plugins/CodeMirror/addon/edit/trailingspace.js"></script><!-- 结尾多余空格显示错误下划线 -->
+
+<script src="resources/plugins/CodeMirror/addon/fold/foldcode.js"></script>
+<script src="resources/plugins/CodeMirror/addon/fold/foldgutter.js"></script>
+<script src="resources/plugins/CodeMirror/addon/fold/brace-fold.js"></script>
+<script src="resources/plugins/CodeMirror/addon/fold/xml-fold.js"></script>
+<script src="resources/plugins/CodeMirror/addon/fold/comment-fold.js"></script>
+
+<script src="resources/plugins/CodeMirror/addon/hint/anyword-hint.js"></script>
+<script src="resources/plugins/CodeMirror/addon/hint/css-hint.js"></script>
+<script src="resources/plugins/CodeMirror/addon/hint/html-hint.js"></script>
+<script src="resources/plugins/CodeMirror/addon/hint/javascript-hint.js"></script>
+<script src="resources/plugins/CodeMirror/addon/hint/show-hint.js"></script>
+<script src="resources/plugins/CodeMirror/addon/hint/sql-hint.js"></script>
+<script src="resources/plugins/CodeMirror/addon/hint/xml-hint.js"></script>
+
+<script src="resources/plugins/CodeMirror/addon/selection/active-line.js"></script><!-- 高亮当前行 -->
+
+<script src="resources/plugins/CodeMirror/addon/mode/loadmode.js"></script><!-- 动态加载高亮类型 -->
+<script src="resources/plugins/CodeMirror/mode/meta.js"></script>
+
+<link rel="stylesheet" href="resources/plugins/CodeMirror/addon/scroll/simplescrollbars.css">
+<script src="resources/plugins/CodeMirror/addon/scroll/simplescrollbars.js"></script>
+
+<link rel="stylesheet" href="resources/plugins/CodeMirror/addon/display/fullscreen.css">
+<script src="resources/plugins/CodeMirror/addon/display/fullscreen.js"></script>
+
+<script src="resources/plugins/CodeMirror/keymap/sublime.js"></script>
+
+<!-- // CodeMirror 扩展插件 -->
+
+<link rel="stylesheet" href="resources/css/MyCodeMirror.css"/>
 <title>troneditor</title>
 </head>
 <body>
@@ -64,8 +118,8 @@
 			<li>
 				<a href="javascript:;">Tools</a>
 				<ul>
-					<li><a href="javascript:;">uglify-js</a></li>
-					<li><a href="javascript:;">clean-css</a></li>
+					<li><label for="uglify-js"><input id="uglify-js" type="checkbox"/>uglify-js</label></li>
+					<li><label for="clean-css"><input id="clean-css" type="checkbox"/>clean-css</label></li>
 				</ul>
 			</li>
 			<li>
@@ -83,7 +137,7 @@
 			<li>
 				<a href="javascript:;">Help</a>
 				<ul>
-					<li id="about"><a href="javascript:;">Keyboard Map</a></li>
+					<li><a href="javascript:;">Keyboard Map</a></li>
 					<li class="separator"></li>
 					<li id="about"><a href="javascript:;">About eroneditor</a></li>
 				</ul>
@@ -91,152 +145,13 @@
 		</ul>
 	</div>
 	<div id="content">
+		<input id="result" type="button" value="结果"/>
 		<textarea id="code" name="code"></textarea>
 	</div>
 </div>
 <script src="resources/skins/skins.js"></script>
-
-<!-- CodeMirror -->
-<script src="resources/plugins/CodeMirror/lib/codemirror.js"></script>
-<link rel="stylesheet" href="resources/plugins/CodeMirror/lib/codemirror.css">
-<link rel="stylesheet" href="resources/plugins/CodeMirror/theme/bespin.css">
-<link rel="stylesheet" href="resources/plugins/CodeMirror/theme/eclipse.css">
-<link rel="stylesheet" href="resources/plugins/CodeMirror/theme/hopscotch.css">
-<link rel="stylesheet" href="resources/plugins/CodeMirror/theme/mbo.css">
-<!-- // CodeMirror -->
-
-<!-- CodeMirror 高亮文件类型 -->
-<script src="resources/plugins/CodeMirror/mode/javascript/javascript.js"></script>
-<script src="resources/plugins/CodeMirror/mode/xml/xml.js"></script>
-<script src="resources/plugins/CodeMirror/mode/htmlmixed/htmlmixed.js"></script>
-<script src="resources/plugins/CodeMirror/mode/css/css.js"></script>
-<!-- // CodeMirror 高亮文件类型 -->
-
-<!-- CodeMirror 扩展插件 -->
-<script src="resources/plugins/CodeMirror/addon/edit/closebrackets.js"></script><!-- 自动闭合括号 -->
-<script src="resources/plugins/CodeMirror/addon/edit/closetag.js"></script><!-- 自动闭合标签 -->
-<script src="resources/plugins/CodeMirror/addon/edit/matchbrackets.js"></script><!-- 提示配对括号 -->
-<script src="resources/plugins/CodeMirror/addon/edit/matchtags.js"></script><!-- 提示配对标签 -->
-<script src="resources/plugins/CodeMirror/addon/edit/trailingspace.js"></script><!-- 结尾多余空格显示错误下划线 -->
-
-<script src="resources/plugins/CodeMirror/addon/fold/foldcode.js"></script>
-<script src="resources/plugins/CodeMirror/addon/fold/foldgutter.js"></script>
-<script src="resources/plugins/CodeMirror/addon/fold/brace-fold.js"></script>
-<script src="resources/plugins/CodeMirror/addon/fold/xml-fold.js"></script>
-<script src="resources/plugins/CodeMirror/addon/fold/comment-fold.js"></script>
-
-<script src="resources/plugins/CodeMirror/addon/hint/anyword-hint.js"></script>
-<script src="resources/plugins/CodeMirror/addon/hint/css-hint.js"></script>
-<script src="resources/plugins/CodeMirror/addon/hint/html-hint.js"></script>
-<script src="resources/plugins/CodeMirror/addon/hint/javascript-hint.js"></script>
-<script src="resources/plugins/CodeMirror/addon/hint/show-hint.js"></script>
-<script src="resources/plugins/CodeMirror/addon/hint/sql-hint.js"></script>
-<script src="resources/plugins/CodeMirror/addon/hint/xml-hint.js"></script>
-
-<script src="resources/plugins/CodeMirror/addon/selection/active-line.js"></script><!-- 高亮当前行 -->
-
-<script src="resources/plugins/CodeMirror/addon/mode/loadmode.js"></script><!-- 动态加载高亮类型 -->
-<script src="resources/plugins/CodeMirror/mode/meta.js"></script>
-
-<link rel="stylesheet" href="resources/plugins/CodeMirror/addon/scroll/simplescrollbars.css">
-<script src="resources/plugins/CodeMirror/addon/scroll/simplescrollbars.js"></script>
-
-<link rel="stylesheet" href="resources/plugins/CodeMirror/addon/display/fullscreen.css">
-<script src="resources/plugins/CodeMirror/addon/display/fullscreen.js"></script>
-
-<script src="resources/plugins/CodeMirror/keymap/sublime.js"></script>
-
-<!-- // CodeMirror 扩展插件 -->
-
-<link rel="stylesheet" href="resources/css/MyCodeMirror.css"/>
-
-<style>
-
-</style>
 <script>
 require('./renderer');
-var $ = require('jquery');
-
-var menubar_status = 'hover';
-$(function() {
-	// 鼠标悬浮添加菜单激活状态
-	$('#menubar>ul>li').mouseenter(function() {
-		$(this).addClass(menubar_status);
-	}).mouseleave(function() {
-		$('#menubar>ul>li').removeClass('hover').removeClass('active');
-	});
-	// 切换菜单激活状态
-	$('#menubar>ul>li').click(function(event) {
-		if (menubar_status == 'hover') {
-			menubar_status = 'active';
-		} else {
-			menubar_status = 'hover';
-		}
-		$('#menubar>ul>li').removeClass('hover').removeClass('active');
-		$(this).addClass(menubar_status);
-		event.stopPropagation();
-	});
-	// 空白处点击，取消菜单激活状态
-	$(document).click(function(event) {
-		menubar_status = 'hover';
-	});
-	// 默认皮肤颜色
-	var color = localStorage.color || 'default';
-	$('#' + color).addClass('cur');
-	// 切换皮肤颜色
-	$('.skins li').click(function() {
-		localStorage.color = $(this).attr('id');
-		$('body').attr('class', $(this).attr('id'));
-		$('.skins li').removeClass('cur');
-		$(this).addClass('cur');
-	});
-	// 关于
-	$('#about').click(function() {
-		alert('软件版权声明：Copyright © 2016, Zhang Shuzheng All rights reserved');
-	});
-
-	// 编辑器
-	var code = CodeMirror.fromTextArea(document.getElementById('code'), {
-		mode: 'text/html',	// 语言模式
-		theme: 'default',	// 高亮主题
-		lineNumbers: true,	// 显示行数
-		smartIndent: true,	// 回车智能缩进
-		indentUnit: 4,	// 首行缩进单位(1个tab)
-		tabSize: 4,		// tab键宽度为4个空格宽度
-		indentWithTabs: true,// 换行自动缩进为tab键
-		maxHighlightLength: Infinity,	// 支持无限着色
-		lineWrapping: false,	// 是否换行
-		styleActiveLine: true,	// 当前行加背景
-		autofocus: true,		// 自动获取焦点
-		matchTags: {bothTags: true},	// 提示配对标签
-		autoCloseBrackets: true, // 自动匹配括号、引号等
-		autoCloseTags: true,		// 自动闭合标签
-		showTrailingSpace: true,	// 多余空白提示错误
-		lineWiseCopyCut: true,	// 不选择任何字符时，默认复制当前行
-		scrollbarStyle: 'simple',	// 美化滚动条
-		keyMap: 'sublime',		// 使用sublime快捷键
-		extraKeys: {	// 扩展全屏快捷键
-			'F11': function(cm) {
-				cm.setOption('fullScreen', !cm.getOption('fullScreen'));
-			},
-			'Esc': function(cm) {
-				if (cm.getOption('fullScreen')) cm.setOption('fullScreen', false);
-			}
-		},
-		
-		matchBrackets: true
-	});
-
-	//$('#result').click(function() {
-		// 撤消&重做
-		/*var doc = editor.getDoc();
-		console.log(doc.undo());
-		console.log(doc.redo());*/
-		// 获取值
-		//console.log(editor.getValue());
-	//});
-
-});
 </script>
 </body>
 </html>

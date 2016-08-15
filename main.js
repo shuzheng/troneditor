@@ -20,7 +20,7 @@ function createWindow () {
 		//height: 600,
 		minWidth: 600,
 		minHeight: 600,
-		//frame: false,
+		frame: false,
 		show: false
 	});
 
