@@ -87,7 +87,7 @@ var editor;
 $(function() {
 	editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
 		mode: 'text/html',	// 语言模式
-		theme: 'default',	// 高亮主题
+		theme: 'bespin',	// 高亮主题
 		lineNumbers: true,	// 显示行数
 		smartIndent: true,	// 回车智能缩进
 		indentUnit: 4,	// 首行缩进单位(1个tab)
@@ -131,9 +131,7 @@ $(function() {
 		},
 		matchBrackets: true
 	});
-	editor.on('change', function(cm) {
-		console.log(cm);
-		console.log(1);
-	});
-
+	editor.on("dragstart",function(editor,e){console.log('dragstart')});
+    editor.on("dragenter",function(editor,e){console.log('dragenter');console.log(e)});
+    editor.on("drop",function(editor,e){console.log('drop')});
 });
