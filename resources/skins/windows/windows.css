@@ -33,7 +33,7 @@ body{margin:1px;outline-style:solid;outline-width:1px;}
 #menubar>ul>.hover>a{background:#F5F7F7;border-color:#F5F7F7 #F5F7F7 #DBDBDD;}
 #menubar>ul>.active>a{background:#F5F7F7;border-color:#DBDBDD #DBDBDD #F5F7F7;}
 
-#menubar>ul>li>ul{padding:1px;border:1px solid #DBDBDD;border-top:none;background:#F5F7F7;box-shadow:2px 2px 2px rgba(0, 0, 0, 0.5);;}
+#menubar>ul>li>ul{padding:1px;border:1px solid #DBDBDD;border-top:none;background:#F5F7F7;box-shadow:2px 2px 1px rgba(0, 0, 0, 0.4);;}
 #menubar>ul>li>ul>li{width:150px;}
 #menubar>ul>li>ul>li:hover{background:#F1F1F1;/*CDE5FD*/}
 #menubar>ul>li>ul>li:active{background:#ECECEC;}
@@ -58,12 +58,12 @@ body{margin:1px;outline-style:solid;outline-width:1px;}
 /* black */
 .black{outline-color:#5E5C5A}.black #titlebar{background:#4C4A48;}
 /* green */
-.green{outline-color:#26924F}.green #titlebar{background:#10893E;}
+.green{outline-color:#13a94c}.green #titlebar{background:#10893E;}
 /* red */
-.red{outline-color:#E8186C}.red #titlebar{background:#EA005E;}
+.red{outline-color:#e67aa6}.red #titlebar{background:#EA005E;}
 /* blue */
-.blue{outline-color:#1883D7;}.blue #titlebar{background:#0078D7;}
+.blue{outline-color:#2697ef;}.blue #titlebar{background:#0078D7;}
 /* orange */
-.orange{outline-color:#F47023;}.orange #titlebar{background:#F7630C;}
+.orange{outline-color:#f39d6b;}.orange #titlebar{background:#F7630C;}
 /* purple */
-.purple{outline-color:#C54BB7;}.purple #titlebar{background:#C239B3;}
+.purple{outline-color:#e84dd7;}.purple #titlebar{background:#C239B3;}
