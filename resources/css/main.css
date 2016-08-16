@@ -32,7 +32,7 @@ input,textarea{resize:none;outline:none;}
 #main #content #code{flex:1;border:0;height:100%;display:-webkit-flex;flex-direction:column;}
 #main #content #code .editor{flex:1;border:0;height:100%;display:none;}
 
-/* �ײ�ѡ� */
+/* 底部选项卡 */
 #main #tabs>li{position:relative;float:left;list-style-type:none;}
 #main #tabs>li i{display:block;float:right;width:24px;height:24px;text-align:center;font-family:-webkit-body;}
 #main #tabs>li i:before{content:"";top:2px;right:12px;position:absolute;width:20px;height:20px;transform:scale3d(0, 0, 0);backface-visibility:hidden;background-color:rgba(0,0,0,0.1);z-index:0;opacity:0;border-radius:50%;transition:all ease-out .1s;}

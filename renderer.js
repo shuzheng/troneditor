@@ -85,7 +85,8 @@ $(function() {
 });
 // ============================ 编辑器操作 ============================/
 var editor_options = {
-	mode: '',	// 语言模式
+	id: '',
+	mode: 'text/css',	// 语言模式
 	theme: 'bespin',	// 高亮主题
 	lineNumbers: true,	// 显示行数
 	smartIndent: true,	// 回车智能缩进
@@ -110,22 +111,49 @@ var editor_options = {
 		'Esc': function(cm) {
 			if (cm.getOption('fullScreen')) cm.setOption('fullScreen', false);
 		},
+		'Alt-/': 'autocomplete',
 		'Ctrl-S': function(cm) {
 			// 撤消&重做
 			//var doc = editor.getDoc();
 			//console.log(doc.undo());
 			//console.log(doc.redo());
+			// 获取文件路径
+			var path = '';
+			var minPath = '';
+			var i = editors.length;
+			while (i--) {
+				if (MD5(editors[i].path) === cm.options.id) {
+					path = editors[i].path;
+					var basePath = path.substring(0, path.lastIndexOf('.'));
+					var suffix = path.substring(path.lastIndexOf('.'));
+					minPath = basePath + '.min' + suffix;
+					break;
+				}
+			}
 			// 获取值
-			var value = editor.getValue();
-			console.log(value);
-			// js压缩
-			var result = UglifyJS.minify("var b = function () { alert(1); };", {fromString: true}).code;
-			console.log(result);
-			// css压缩
-			var CleanCSS = require('clean-css');
-			var source = 'a{ font-weight: bold; width: 100px; height: 200px; font-familay: "微软雅黑"}';
-			var minified = new CleanCSS().minify(source).styles;
-			console.log(minified);
+			var value = cm.getValue();
+			// 保存文件
+			rf.writeFile(path, value, 'utf-8', function() {
+				console.log('save:' + path);
+				// js压缩
+				if (cm.options.mode == 'application/javascript' || cm.options.mode == 'text/javascript') {
+					//var result = UglifyJS.minify(path);
+					//console.log(result);
+					var result = UglifyJS.minify(value, {fromString: true, warnings: true});
+					console.log(result.code);
+				}
+				// css压缩
+				if (cm.options.mode == 'text/css') {
+					var minValue = new CleanCSS().minify(value).styles;
+					rf.writeFile(minPath, minValue, 'utf-8', function() {
+						console.log('save:' + minPath);
+					});
+				}
+				// html压缩
+				if (cm.options.mode == 'text/html') {
+					var minValue = value;
+				}
+			});
 		}
 	},
 	matchBrackets: true
@@ -136,7 +164,6 @@ $(document).bind("drop", function (e) {
 	e.stopPropagation();
 	var files = e.originalEvent.dataTransfer.files;
 	for (var i = 0; i < files.length; i ++) {
-		console.log(files[i]);
 		Tab.openTab(files[i]);
 	}
 }).bind("dragover", function (e) {
@@ -159,7 +186,7 @@ window.Tab = {
 		while (i--) {
 			if (editors[i].path === file.path) {
 				// 激活选项卡
-				this.focusTab(file);
+				this.focusTab(MD5(file.path));
 				return false;
 			}
 		}
@@ -171,12 +198,25 @@ window.Tab = {
 		$('#code').append($('<div id="' + id + '_content" class="editor"><textarea id="' + id + '_editor" name="editor"></textarea></div>'));
 		$('#' + id + '_editor').val(rf.readFileSync(file.path, 'utf-8'));
 		editor_options.mode = file.type;
-		CodeMirror.fromTextArea(document.getElementById(id + '_editor'), editor_options);
+		editor_options.id = id;
 		// 加入编辑器数组
 		editors.push(file);
 		// 显示当前
 		$('.editor').hide();
-		$('#' + id + '_content').show();
+		$('#' + id + '_content').show(0, function() {
+			CodeMirror.fromTextArea(document.getElementById(id + '_editor'), editor_options)
+			.on('drop', function(editor, e) {
+				e.preventDefault();
+				e.stopPropagation();
+			});
+			//var myCodeMirror = CodeMirror.fromTextArea(document.getElementById('editor'), editor_options);
+			//CodeMirror.on("keyup", function (cm, event) {
+			//    if (!cm.state.completionActive && /*Enables keyboard navigation in autocomplete list*/
+			//        event.keyCode != 13) {        /*Enter - do not open autocomplete list just after item has been selected in it*/ 
+			//        CodeMirror.commands.autocomplete(cm, null, {completeSingle: false});
+			//    }
+			//});
+		});
 	},
 	closeTab: function(id) {
 		var i = editors.length;
@@ -185,19 +225,21 @@ window.Tab = {
 				// 删除选项卡
 				editors.splice(i, 1);
 				$('#' + id).remove();
+				$('#' + id + '_content').remove();
 				return false;
 			}
 		}
 	},
-	focusTab: function(file) {
+	focusTab: function(id) {
 		$('#tabs .cur').removeClass('cur');
-		$('#' + MD5(file.path)).addClass('cur');
+		$('#' + id).addClass('cur');
+		$('.editor').hide();
+		$('#' + id + '_content').show();
 	}
 }
 $(function() {
 	$(document).on('click', '#tabs li', function () {
-		$('#tabs .cur').removeClass('cur');
-		$(this).addClass('cur');
+		Tab.focusTab($(this).attr('id'));
 	});
 });
 
@@ -211,4 +253,11 @@ $(function() {
 	//	console.log(e);
 	//	console.log(e.srcElement.baseURI)
 	//});
+	//var myCodeMirror = CodeMirror.fromTextArea(document.getElementById('editor'), editor_options);
+	//CodeMirror.on("keyup", function (cm, event) {
+    //    if (!cm.state.completionActive && /*Enables keyboard navigation in autocomplete list*/
+    //        event.keyCode != 13) {        /*Enter - do not open autocomplete list just after item has been selected in it*/ 
+    //        CodeMirror.commands.autocomplete(cm, null, {completeSingle: false});
+    //    }
+    //});
 });

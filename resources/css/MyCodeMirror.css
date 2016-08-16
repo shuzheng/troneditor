@@ -12,3 +12,7 @@
 /* 高度 */
 .CodeMirror{height:100%;}
 .CodeMirror-scrollbar-filler{background:none;}
+/* 自动补全 */
+.CodeMirror-hints{position:absolute;z-index:10;overflow:hidden;list-style:none;margin:0;padding:2px;border-radius:3px;border:1px solid #2F3032;background:#28211C;font-size:90%;font-family:monospace;max-height:20em;overflow-y:auto;}
+.CodeMirror-hint{margin:0;padding:0 4px;height:22px;line-height:22px;border-radius:2px;white-space:pre;color:#AAAAAA;cursor:pointer;}
+li.CodeMirror-hint-active{background:#4182C4;color:white;}
