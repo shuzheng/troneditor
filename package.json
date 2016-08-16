@@ -21,6 +21,7 @@
     "jquery": "^3.1.0",
     "uglify-js": "^2.7.1",
     "clean-css": "^3.4.19",
-    "html-minifier": "^3.0.2"
+    "html-minifier": "^3.0.2",
+    "md5": "^2.1.0"
   }
 }

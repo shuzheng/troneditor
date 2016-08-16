@@ -11,3 +11,4 @@
 .CodeMirror-simplescroll-horizontal{height:12px;}
 /* 高度 */
 .CodeMirror{height:100%;}
+.CodeMirror-scrollbar-filler{background:none;}
