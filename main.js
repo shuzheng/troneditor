@@ -7,6 +7,8 @@ const {app} = electron;
 const {BrowserWindow} = electron;
 // 通信进程
 const {ipcMain} = electron;
+// 弹出框
+const {dialog} = electron;
 
 // ============================ 主窗口 ============================
 // 保持一个对于 window 对象的全局引用，如果你不这样做，
@@ -96,6 +98,10 @@ ipcMain.on('close', (event) => {
 // 通信方法：显示指定窗口
 ipcMain.on('show', (event) => {
 	
+});
+// 弹出框
+ipcMain.on('showMessageBox', (event, options) => {
+	dialog.showMessageBox(options);
 });
 
 // 在这文件，你可以续写应用剩下主进程代码。

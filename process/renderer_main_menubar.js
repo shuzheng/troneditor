@@ -4,8 +4,13 @@ const electron = require('electron');
 const ipcRenderer = electron.ipcRenderer;
 // shellAPI
 const shell = electron.shell;
+// 弹出框
+const dialog = electron.remote.dialog;
 // ============================ 第三方node模块 ============================/
 const $ = require('jquery');
+var fs = require('fs');
+// ============================ 根据文件路径获取文件名和文件类型 ============================/
+const Mode = require('./utils_mode');
 // ============================ 菜单栏操作 ============================/
 var menubar_status = 'hover';
 $(function() {
@@ -38,6 +43,39 @@ $(function() {
 		//	editor.focus();
 		//}
 	});
+});
+// ============================ File ============================/
+$(function() {
+	// New
+	$('#new').click(function() {
+		
+	});
+	// Open
+	$('#open').click(function() {
+		dialog.showOpenDialog({
+			title: 'Open...',
+			filters: [
+				{ name: 'HTML/JS/CSS', extensions: ['html', 'htm', 'js', 'css'] },
+				{ name: 'All Files', extensions: ['*'] }
+			],
+			properties: [
+				'openFile',
+				'multiSelections'
+			]
+		}, function(filenames) {
+			for (var i in filenames) {
+				Tab.openTab(filenames[i], Mode.getName(filenames[i]), Mode.getType(filenames[i]));
+
+			}
+		});
+	});
+});
+// ============================ Edit ============================/
+// ============================ View ============================/
+// ============================ Search ============================/
+// ============================ Tools ============================/
+// ============================ Skins ============================/
+$(function() {
 	// 默认皮肤颜色
 	var color = localStorage.color || 'default';
 	$('#' + color).addClass('cur');
@@ -48,12 +86,20 @@ $(function() {
 		$('.skins li').removeClass('cur');
 		$(this).addClass('cur');
 	});
+});
+// ============================ Help ============================/
+$(function() {
 	// 文档
 	$('#document').click(function() {
-		shell.openExternal('http://www.zhangshuzheng.cn/');
+		shell.openExternal('http://www.zhangshuzheng.cn/troneditor/');
 	});
 	// 关于
 	$('#about').click(function() {
-		alert('Copyright © 2016, Zhang Shuzheng All rights reserved');
+		ipcRenderer.send('showMessageBox', {
+			type: 'info',
+			title: 'About',
+			message: 'Copyright © 2016, Zhang Shuzheng All rights reserved.',
+			buttons: []
+		});
 	});
 });

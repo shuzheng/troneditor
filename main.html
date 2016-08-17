@@ -68,8 +68,8 @@
 			<li>
 				<a href="javascript:;">File</a>
 				<ul>
-					<li><a href="javascript:;">New</a></li>
-					<li><a href="javascript:;">Open...</a></li>
+					<li id="new"><a href="javascript:;">New</a></li>
+					<li id="open"><a href="javascript:;">Open...</a></li>
 					<li><a href="javascript:;">Close</a></li>
 					<li><a href="javascript:;">Close All</a></li>
 					<li class="separator"></li>
@@ -161,6 +161,8 @@
 </div>
 <script src="resources/skins/skins.js"></script>
 <script>
+// 文件路径数组
+var editors = new Array();
 require('./process/renderer_main');
 </script>
 </body>

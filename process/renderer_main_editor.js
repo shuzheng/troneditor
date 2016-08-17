@@ -8,7 +8,7 @@ const UglifyJS = require('uglify-js');
 var CleanCSS = require('clean-css');
 var minify = require('html-minifier').minify;
 var MD5 = require('md5');
-var rf = require('fs');
+var fs = require('fs');
 // ============================ 编辑器操作 ============================/
 var editor_options = {
 	id: '',
@@ -48,8 +48,8 @@ var editor_options = {
 			var minPath = '';
 			var i = editors.length;
 			while (i--) {
-				if (MD5(editors[i].path) === cm.options.id) {
-					path = editors[i].path;
+				if (MD5(editors[i]) === cm.options.id) {
+					path = editors[i];
 					var basePath = path.substring(0, path.lastIndexOf('.'));
 					var suffix = path.substring(path.lastIndexOf('.'));
 					minPath = basePath + '.min' + suffix;
@@ -59,19 +59,19 @@ var editor_options = {
 			// 获取值
 			var value = cm.getValue();
 			// 保存文件
-			rf.writeFile(path, value, 'utf-8', function() {
+			fs.writeFile(path, value, 'utf-8', function() {
 				console.log('save:' + path);
 				// js压缩
 				if (cm.options.mode == 'application/javascript' || cm.options.mode == 'text/javascript') {
 					var minValue = UglifyJS.minify(value, {fromString: true, warnings: true}).code;
-					rf.writeFile(minPath, minValue, 'utf-8', function() {
+					fs.writeFile(minPath, minValue, 'utf-8', function() {
 						console.log('save:' + minPath);
 					});
 				}
 				// css压缩
 				if (cm.options.mode == 'text/css') {
 					var minValue = new CleanCSS().minify(value).styles;
-					rf.writeFile(minPath, minValue, 'utf-8', function() {
+					fs.writeFile(minPath, minValue, 'utf-8', function() {
 						console.log('save:' + minPath);
 					});
 				}
@@ -83,7 +83,7 @@ var editor_options = {
 						minifyJS:true,
 						minifyCSS:true
 					});
-					rf.writeFile(minPath, minValue, 'utf-8', function() {
+					fs.writeFile(minPath, minValue, 'utf-8', function() {
 						console.log('save:' + minPath);
 					});
 				}
@@ -92,14 +92,13 @@ var editor_options = {
 	},
 	matchBrackets: true
 };
-var editors = new Array();
 $(document).bind("drop", function (e) {
 	e.preventDefault();
 	e.stopPropagation();
 	var files = e.originalEvent.dataTransfer.files;
 	for (var i in files) {
 		if (files[i].path) {
-			Tab.openTab(files[i]);
+			Tab.openTab(files[i].path, files[i].name, files[i].type);
 		}
 	}
 }).bind("dragover", function (e) {
@@ -116,27 +115,27 @@ type:"application/javascript"
 webkitRelativePath:""
 */
 window.Tab = {
-	openTab: function(file) {
+	openTab: function(path, name, type) {
 		// 判断是否一打开同路径文件
 		var i = editors.length;
 		while (i--) {
-			if (editors[i].path === file.path) {
+			if (editors[i] === path) {
 				// 激活选项卡
-				this.focusTab(MD5(file.path));
+				this.focusTab(MD5(path));
 				return false;
 			}
 		}
 		// 新增选项卡，打开文件
-		var id = MD5(file.path);
+		var id = MD5(path);
 		$('#tabs .cur').removeClass('cur');
-		$('#tabs').append($('<li class="cur" id="' + id + '">' + file.name + '<i onclick="Tab.closeTab(\'' + id + '\')">×</i></li>'));
+		$('#tabs').append($('<li class="cur" id="' + id + '">' + name + '<i onclick="Tab.closeTab(\'' + id + '\')">×</i></li>'));
 		// 初始化编辑器
 		$('#code').append($('<div id="' + id + '_content" class="editor"><textarea id="' + id + '_editor" name="editor"></textarea></div>'));
-		$('#' + id + '_editor').val(rf.readFileSync(file.path, 'utf-8'));
-		editor_options.mode = file.type;
+		$('#' + id + '_editor').val(fs.readFileSync(path, 'utf-8'));
+		editor_options.mode = type;
 		editor_options.id = id;
 		// 加入编辑器数组
-		editors.push(file);
+		editors.push(path);
 		// 显示当前
 		$('.editor').hide();
 		$('#' + id + '_content').show(0, function() {
@@ -157,7 +156,7 @@ window.Tab = {
 	closeTab: function(id) {
 		var i = editors.length;
 		while (i--) {
-			if (MD5(editors[i].path) === id) {
+			if (MD5(editors[i]) === id) {
 				// 删除选项卡
 				editors.splice(i, 1);
 				$('#' + id).remove();
