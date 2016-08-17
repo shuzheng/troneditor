@@ -50,9 +50,18 @@ var editor_options = {
 			while (i--) {
 				if (MD5(editors[i]) === cm.options.id) {
 					path = editors[i];
-					var basePath = path.substring(0, path.lastIndexOf('.'));
-					var suffix = path.substring(path.lastIndexOf('.'));
-					minPath = basePath + '.min' + suffix;
+					// 有后缀
+					if (path.lastIndexOf('.') > 0) {
+						var basePath = path.substring(0, path.lastIndexOf('.'));
+						var suffix = path.substring(path.lastIndexOf('.'));
+						minPath = basePath + '.min' + suffix;
+					} else {
+						ipcRenderer.send('showSaveDialog', {
+							title: 'Save As...'
+						}, function(filenames) {
+							console.log(filenames);
+						});
+					}
 					break;
 				}
 			}
@@ -60,19 +69,18 @@ var editor_options = {
 			var value = cm.getValue();
 			// 保存文件
 			fs.writeFile(path, value, 'utf-8', function() {
-				console.log('save:' + path);
 				// js压缩
 				if (cm.options.mode == 'application/javascript' || cm.options.mode == 'text/javascript') {
 					var minValue = UglifyJS.minify(value, {fromString: true, warnings: true}).code;
 					fs.writeFile(minPath, minValue, 'utf-8', function() {
-						console.log('save:' + minPath);
+						// saved
 					});
 				}
 				// css压缩
 				if (cm.options.mode == 'text/css') {
 					var minValue = new CleanCSS().minify(value).styles;
 					fs.writeFile(minPath, minValue, 'utf-8', function() {
-						console.log('save:' + minPath);
+						// saved
 					});
 				}
 				// html压缩
@@ -84,7 +92,7 @@ var editor_options = {
 						minifyCSS:true
 					});
 					fs.writeFile(minPath, minValue, 'utf-8', function() {
-						console.log('save:' + minPath);
+						// saved
 					});
 				}
 			});

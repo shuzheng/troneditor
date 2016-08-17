@@ -1,3 +1,4 @@
 /node_modules/*
-/pack/app*
-/pack/build*
+/pack/app/*
+/pack/build/*
+/pack/temp/*

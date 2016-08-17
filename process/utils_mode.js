@@ -1,9 +1,16 @@
 // 根据文件路径获取文件名和文件类型
 var Mode = {
 	getName: function(path) {
-		return path.substring(path.lastIndexOf('\\') + 1);
+		path = path.replace(new RegExp('\\\\','gm'),'/');
+		return path.substring(path.lastIndexOf('/') + 1);
 	},
 	getType: function(path) {
+		var name = this.getName(path);
+		// 无后缀
+		if (name.lastIndexOf('.') < 0) {
+			return '';
+		}
+		// 根据后缀名返回mode类型
 		var suffix = path.substring(path.lastIndexOf('.') + 1);
 		if (suffix == 'js') {
 			return 'text/javascript';

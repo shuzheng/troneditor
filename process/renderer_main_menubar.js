@@ -48,7 +48,21 @@ $(function() {
 $(function() {
 	// New
 	$('#new').click(function() {
-		
+		var path = electron.remote.app.getAppPath() + '/temp/';
+		var name = new Date().getTime();
+		var file = path + name;
+		// 如果不存在临时文件夹，则创建
+		if (!fs.existsSync(path)) {
+			fs.mkdir(path, function(err) {
+				if (err) {
+					throw err;
+				}
+			});
+		}
+		// 新建临时文件
+		fs.writeFile(file, '', 'utf-8');
+		// 新建选项卡
+		Tab.openTab(file, Mode.getName(file), Mode.getType(file));
 	});
 	// Open
 	$('#open').click(function() {
@@ -65,7 +79,6 @@ $(function() {
 		}, function(filenames) {
 			for (var i in filenames) {
 				Tab.openTab(filenames[i], Mode.getName(filenames[i]), Mode.getType(filenames[i]));
-
 			}
 		});
 	});

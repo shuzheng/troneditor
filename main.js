@@ -99,9 +99,14 @@ ipcMain.on('close', (event) => {
 ipcMain.on('show', (event) => {
 	
 });
-// 弹出框
+// 消息弹出框
 ipcMain.on('showMessageBox', (event, options) => {
 	dialog.showMessageBox(options);
+});
+// 保存文件弹出框
+ipcMain.on('showSaveDialog', (event, options, callback) => {
+	console.log(callback);
+	dialog.showSaveDialog(options, callback);
 });
 
 // 在这文件，你可以续写应用剩下主进程代码。
