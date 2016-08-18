@@ -1,6 +1,3 @@
-# troneditor
-troneditor
-
 # How to use
 ```javascript
 npm install
