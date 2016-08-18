@@ -21,6 +21,18 @@ var Mode = {
 		} else {
 			return '';
 		}
+	},
+	getMode: function(path) {
+		var type = this.getType(path);
+		if (type == 'text/javascript') {
+			return 'javascript';
+		} else if (type == 'text/css') {
+			return 'css';
+		} else if (type == 'text/html') {
+			return 'htmlmixed';
+		} else {
+			return '';
+		}
 	}
 };
 
