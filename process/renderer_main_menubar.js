@@ -64,6 +64,22 @@ $(function() {
 	$('#CloseAll').click(function() {
 		Menu_functions.closeAll();
 	});
+	// Save All
+	$('#SaveAll').click(function() {
+		Menu_functions.saveAll();
+	});
+	// Save As...
+	$('#SaveAs').click(function() {
+		Menu_functions.saveAs();
+	});
+	// Save & Exit
+	$('#SaveExit').click(function() {
+		Menu_functions.saveExit();
+	});
+	// Exit
+	$('#Exit').click(function() {
+		Menu_functions.exit();
+	});
 });
 // ============================ Edit ============================/
 // ============================ View ============================/
@@ -90,11 +106,13 @@ $(function() {
 	});
 	// 关于
 	$('#about').click(function() {
-		ipcRenderer.send('showMessageBox', {
-			type: 'info',
-			title: 'About',
-			message: 'Copyright © 2016, Zhang Shuzheng All rights reserved.',
-			buttons: []
-		});
+		setTimeout(function() {
+			ipcRenderer.send('showMessageBox', {
+				type: 'info',
+				title: 'About',
+				message: 'Copyright © 2016, Zhang Shuzheng All rights reserved.',
+				buttons: []
+			});
+		}, 20);
 	});
 });
