@@ -1,9 +1,9 @@
 /*public*/
 ::-webkit-scrollbar{width:10px;}
 ::-webkit-scrollbar:horizontal{height:10px;}
-::-webkit-scrollbar-thumb{width:10px;background-color:#736666;border:none;-webkit-border-radius:10px;}
-::-webkit-scrollbar-thumb:hover{background-color:#C2C2C2;border:1px solid #A9A9A9;}
-::-webkit-scrollbar-thumb:active{background-color:#919191;border:1px solid #7C7C7C;}
+::-webkit-scrollbar-thumb{width:10px;background-color:rgba(0, 0, 0, .5);border:1px solid #333;-webkit-border-radius:10px;}
+::-webkit-scrollbar-thumb:hover{border:1px solid #666;}
+::-webkit-scrollbar-thumb:active{border:1px solid #999;}
 ::-webkit-scrollbar-track{background:none;}
 ::-webkit-scrollbar-track-piece{background:none;border:none;}
 
