@@ -34,12 +34,15 @@ body{margin:1px;outline-style:solid;outline-width:1px;}
 #menubar>ul>.active>a{background:#FFFFFF;border-color:#DBDBDD #DBDBDD #F5F7F7;}
 
 #menubar>ul>li>ul{padding:1px;border:1px solid #DBDBDD;border-top:none;background:#FFFFFF;box-shadow:4px 4px 2px -2px rgba(0, 0, 0, 0.4);;}
-#menubar>ul>li>ul>li{width:150px;}
+#menubar>ul>li>ul>li{width:150px;line-height:22px;}
 #menubar>ul>li>ul>li:hover{background:#F1F1F1;/*CDE5FD*/}
 #menubar>ul>li>ul>li:active{background:#ECECEC;}
-#menubar>ul>li>ul>li>a,#menubar>ul>li>ul>li>label{display:block;height:22px;line-height:22px;padding:2px 10px;color:#3C3C3C;font-size:12px;}
+#menubar>ul>li>ul>li>a,#menubar>ul>li>ul>li>label{display:block;padding:2px 10px;color:#3C3C3C;font-size:12px;}
+#menubar>ul>li>ul>li>span{font-size:10px;color:#999;float:right;margin-right:10px;}
 #menubar>ul>li>ul>li>label input{vertical-align:middle;}
 #menubar>ul>li>ul>.separator{height:1px;margin:3px 0;background:#EAEAEA;}
+
+#menubar>ul>li>.large li{width:240px;}
 
 #menubar>ul>li>.skins li{width:50px;margin:1px;border:1px solid #fff;background:#c22;transition:all ease-out .1s;}
 #menubar>ul>li>.skins li:hover{border:1px solid #000;}
@@ -53,10 +56,12 @@ body{margin:1px;outline-style:solid;outline-width:1px;}
 #menubar>ul>li>.skins #orange{background:#F7630C;}
 #menubar>ul>li>.skins #purple{background:#C239B3;}
 
-/* �ײ�ѡ� */
-#main #tabs{background:#403832;border-top:1px solid #565656;}
+/* �ײ�ѡ� */
+#main #tabs{background:#403832;border-top:1px solid #565656;/*max-height:56px;overflow-y:auto;overflow:auto;*/}
 #main #tabs>li{margin:-1px 2px 4px;padding:0 10px 0 30px;height:24px;line-height:24px;border:1px solid #565656;font-size:13px;border-radius:0 0 8px 8px;background:-webkit-gradient(linear, left top, left bottom, from(#585858), to(#232121));color:#b3b3b3;}
+#main #tabs>li:hover{background:-webkit-gradient(linear, left top, left bottom, from(#232121), to(#585858));}
 #main #tabs>.cur{background:#28211c;border-top-color:#28211c;color:#dfdfdf;}
+#main #tabs>.cur:hover{background:#28211c;}
 #main #tabs>li i{margin-left:20px;}
 
 /**** style ****/
