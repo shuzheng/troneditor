@@ -62,6 +62,25 @@ var Menu_functions = {
 	// 关闭全部
 	closeAll: function() {
 		Tab.closeAllTab();
+	},
+	// 保存全部
+	saveAll: function() {
+		// TODO
+		alert('TODO');
+	},
+	// 另存为
+	saveAs: function() {
+		// TODO
+		alert('TODO');
+	},
+	// 保存并退出
+	saveExit: function() {
+		// TODO
+		alert('TODO');
+	},
+	// 退出
+	exit: function() {
+		ipcRenderer.send('close');
 	}
 };
 module.exports = Menu_functions;
