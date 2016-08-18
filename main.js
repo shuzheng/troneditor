@@ -9,7 +9,8 @@ const {BrowserWindow} = electron;
 const {ipcMain} = electron;
 // 弹出框
 const {dialog} = electron;
-
+// 快捷键
+const {globalShortcut} = electron;
 // ============================ 主窗口 ============================
 // 保持一个对于 window 对象的全局引用，如果你不这样做，
 // 当 JavaScript 对象被垃圾回收， window 会被自动地关闭。
@@ -103,10 +104,25 @@ ipcMain.on('show', (event) => {
 ipcMain.on('showMessageBox', (event, options) => {
 	dialog.showMessageBox(options);
 });
-// 保存文件弹出框
-ipcMain.on('showSaveDialog', (event, options, callback) => {
-	console.log(callback);
-	dialog.showSaveDialog(options, callback);
+
+// ============================ 全局快捷键 ============================
+app.on('ready', () => {
+	// 新建文件
+	globalShortcut.register('ctrl+n', function() {
+		mainWindow.webContents.send('newFile');
+	});
+	// 打开文件
+	globalShortcut.register('ctrl+o', function() {
+		mainWindow.webContents.send('open');
+	});
+	// 关闭当前文件
+	globalShortcut.register('ctrl+w', function() {
+		mainWindow.webContents.send('close');
+	});
+});
+app.on('will-quit', () => {
+	// 注销所有快捷键
+	globalShortcut.unregisterAll();
 });
 
 // 在这文件，你可以续写应用剩下主进程代码。

@@ -11,6 +11,8 @@ const $ = require('jquery');
 var fs = require('fs');
 // ============================ 根据文件路径获取文件名和文件类型 ============================/
 const Mode = require('./utils_mode');
+// ============================ 菜单栏操作方法 ============================/
+const Menu_functions = require('./renderer_main_menubar_functions');
 // ============================ 菜单栏操作 ============================/
 var menubar_status = 'hover';
 $(function() {
@@ -47,40 +49,20 @@ $(function() {
 // ============================ File ============================/
 $(function() {
 	// New
-	$('#new').click(function() {
-		var path = electron.remote.app.getAppPath() + '/temp/';
-		var name = new Date().getTime();
-		var file = path + name;
-		// 如果不存在临时文件夹，则创建
-		if (!fs.existsSync(path)) {
-			fs.mkdir(path, function(err) {
-				if (err) {
-					throw err;
-				}
-			});
-		}
-		// 新建临时文件
-		fs.writeFile(file, '', 'utf-8');
-		// 新建选项卡
-		Tab.openTab(file, Mode.getName(file), Mode.getType(file));
+	$('#New').click(function() {
+		Menu_functions.newFile();
 	});
 	// Open
-	$('#open').click(function() {
-		dialog.showOpenDialog({
-			title: 'Open...',
-			filters: [
-				{ name: 'HTML/JS/CSS', extensions: ['html', 'htm', 'js', 'css'] },
-				{ name: 'All Files', extensions: ['*'] }
-			],
-			properties: [
-				'openFile',
-				'multiSelections'
-			]
-		}, function(filenames) {
-			for (var i in filenames) {
-				Tab.openTab(filenames[i], Mode.getName(filenames[i]), Mode.getType(filenames[i]));
-			}
-		});
+	$('#Open').click(function() {
+		Menu_functions.open();
+	});
+	// Close
+	$('#Close').click(function() {
+		Menu_functions.close();
+	});
+	// Close All
+	$('#CloseAll').click(function() {
+		Menu_functions.closeAll();
 	});
 });
 // ============================ Edit ============================/

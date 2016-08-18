@@ -15,10 +15,12 @@
 <!-- // CodeMirror -->
 
 <!-- CodeMirror 高亮文件类型 -->
+<!--
 <script src="resources/plugins/CodeMirror/mode/javascript/javascript.js"></script>
 <script src="resources/plugins/CodeMirror/mode/xml/xml.js"></script>
 <script src="resources/plugins/CodeMirror/mode/htmlmixed/htmlmixed.js"></script>
 <script src="resources/plugins/CodeMirror/mode/css/css.js"></script>
+-->
 <!-- // CodeMirror 高亮文件类型 -->
 
 <!-- CodeMirror 扩展插件 -->
@@ -68,33 +70,34 @@
 			<li>
 				<a href="javascript:;">File</a>
 				<ul>
-					<li id="new"><a href="javascript:;">New</a></li>
-					<li id="open"><a href="javascript:;">Open...</a></li>
-					<li><a href="javascript:;">Close</a></li>
-					<li><a href="javascript:;">Close All</a></li>
+					<li id="New"><span>Ctrl+N</span><a href="javascript:;">New</a></li>
+					<li id="Open"><span>Ctrl+O</span><a href="javascript:;">Open...</a></li>
+					<li id="Close"><span>Ctrl+W</span><a href="javascript:;">Close</a></li>
+					<li id="CloseAll"><a href="javascript:;">Close All</a></li>
 					<li class="separator"></li>
-					<li><a href="javascript:;">Save</a></li>
-					<li><a href="javascript:;">Save All</a></li>
-					<li><a href="javascript:;">Save As...</a></li>
+					<li id="Save"><span>Ctrl+S</span><a href="javascript:;">Save</a></li>
+					<li id="SaveAll"><a href="javascript:;">Save All</a></li>
+					<li id="SaveAd"><a href="javascript:;">Save As...</a></li>
 					<li class="separator"></li>
-					<li><a href="javascript:;">Save & Exit</a></li>
-					<li><a href="javascript:;">Exit</a></li>
+					<li id="SaveExit"><a href="javascript:;">Save & Exit</a></li>
+					<li id="Exit"><a href="javascript:;">Exit</a></li>
 				</ul>
 			</li>
 			<li>
 				<a href="javascript:;">Edit</a>
 				<ul>
-					<li><a href="javascript:;">Undo</a></li>
-					<li><a href="javascript:;">Redo</a></li>
+					<li><span>Ctrl+Z</span><a href="javascript:;">Undo</a></li>
+					<li><span>Ctrl+Y</span><a href="javascript:;">Redo</a></li>
 					<li class="separator"></li>
-					<li><a href="javascript:;">Cut</a></li>
-					<li><a href="javascript:;">Copy</a></li>
-					<li><a href="javascript:;">Paste</a></li>
+					<li><span>Ctrl+X</span><a href="javascript:;">Cut</a></li>
+					<li><span>Ctrl+C</span><a href="javascript:;">Copy</a></li>
+					<li><span>Ctrl+V</span><a href="javascript:;">Paste</a></li>
 					<li><a href="javascript:;">Delete</a></li>
 					<li class="separator"></li>
-					<li><a href="javascript:;">Select All</a></li>
+					<li><span>Ctrl+A</span><a href="javascript:;">Select All</a></li>
 				</ul>
 			</li>
+            <!--
 			<li>
 				<a href="javascript:;">View</a>
 				<ul>
@@ -110,22 +113,23 @@
 			<li>
 				<a href="javascript:;">Search</a>
 				<ul>
-					<li><a href="javascript:;">Find</a></li>
-					<li><a href="javascript:;">Replace...</a></li>
+					<li><span>Ctrl+F</span><a href="javascript:;">Find</a></li>
+					<li><span>Ctrl+H</span><a href="javascript:;">Replace...</a></li>
 					<li class="separator"></li>
-					<li><a href="javascript:;">Go To</a></li>
+					<li><span>Ctrl+L</span><a href="javascript:;">Go To</a></li>
 					<li><a href="javascript:;">First Place</a></li>
 					<li><a href="javascript:;">Last Place</a></li>
 				</ul>
 			</li>
+			-->
 			<li>
 				<a href="javascript:;">Tools</a>
-				<ul>
+				<ul class="large">
 					<li><label for="uglify-js"><input id="uglify-js" type="checkbox" checked/>uglify-js</label></li>
 					<li><label for="clean-css"><input id="clean-css" type="checkbox" checked/>clean-css</label></li>
 					<li><label for="html-minifier"><input id="html-minifier" type="checkbox" checked/>html-minifier</label></li>
 					<li class="separator"></li>
-					<li><label for="developer-tools"><input id="developer-tools" type="checkbox"/>Developer Tools</label></li>
+					<li><span>Ctrl+Shift+I</span><label for="developer-tools"><input id="developer-tools" type="checkbox"/>Developer Tools</label></li>
 				</ul>
 			</li>
 			<li>
@@ -161,8 +165,13 @@
 </div>
 <script src="resources/skins/skins.js"></script>
 <script>
-// 文件路径数组
+/* ------------------------------
+ * 打开文件数组
+ * {path:文件路径,editor:编辑器}
+ * ------------------------------
+ */
 var editors = new Array();
+// 渲染进程
 require('./process/renderer_main');
 </script>
 </body>

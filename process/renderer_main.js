@@ -12,3 +12,5 @@ require('./renderer_main_titlebar');
 require('./renderer_main_menubar');
 // ============================ 编辑器操作 ============================/
 require('./renderer_main_editor');
+// ============================ 全局快捷键操作 ============================/
+require('./renderer_main_shortcut');

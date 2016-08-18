@@ -9,7 +9,10 @@ var CleanCSS = require('clean-css');
 var minify = require('html-minifier').minify;
 var MD5 = require('md5');
 var fs = require('fs');
+// ============================ 根据文件路径获取文件名和文件类型 ============================/
+const Mode = require('./utils_mode');
 // ============================ 编辑器操作 ============================/
+CodeMirror.modeURL = "resources/plugins/CodeMirror/mode/%N/%N.js";
 var editor_options = {
 	id: '',
 	mode: 'text/css',	// 语言模式
@@ -48,18 +51,40 @@ var editor_options = {
 			var minPath = '';
 			var i = editors.length;
 			while (i--) {
-				if (MD5(editors[i]) === cm.options.id) {
-					path = editors[i];
+				if (MD5(editors[i].path) === cm.options.id) {
+					path = editors[i].path;
 					// 有后缀
 					if (path.lastIndexOf('.') > 0) {
 						var basePath = path.substring(0, path.lastIndexOf('.'));
 						var suffix = path.substring(path.lastIndexOf('.'));
 						minPath = basePath + '.min' + suffix;
 					} else {
-						ipcRenderer.send('showSaveDialog', {
+						electron.remote.dialog.showSaveDialog({
 							title: 'Save As...'
-						}, function(filenames) {
-							console.log(filenames);
+						}, function(filename) {
+							if (filename) {
+								// 保存新文件
+								fs.writeFile(filename, cm.getValue(), 'utf-8', function() {
+									// 修改标签id为新id
+									var newId = MD5(filename);
+									$('#' + MD5(editors[i].path)).attr('id', newId);
+									$('#' + MD5(editors[i].path) + '_content').attr('id', newId + '_content');
+									// 修改编辑器mode
+									cm.options.mode = Mode.getType(filename);
+									CodeMirror.autoLoadMode(editors[i].codeMirror, Mode.getMode(filename));
+									// 修改编辑器id
+									cm.options.id = newId;
+									// 修改标签文件名
+									$('#' + newId + ' span').text(Mode.getName(filename));
+									// 修改标签关闭事件
+									$('#' + newId + ' i').attr('onclick', 'Tab.closeTab(\'' + newId + '\')');
+									// 修改打开文件路径为最新路径
+									editors[i].path = filename;
+									// 删除临时文件
+									fs.unlink(path, function() {});
+								});
+								return false;
+							}
 						});
 					}
 					break;
@@ -127,7 +152,7 @@ window.Tab = {
 		// 判断是否一打开同路径文件
 		var i = editors.length;
 		while (i--) {
-			if (editors[i] === path) {
+			if (editors[i].path === path) {
 				// 激活选项卡
 				this.focusTab(MD5(path));
 				return false;
@@ -136,35 +161,58 @@ window.Tab = {
 		// 新增选项卡，打开文件
 		var id = MD5(path);
 		$('#tabs .cur').removeClass('cur');
-		$('#tabs').append($('<li class="cur" id="' + id + '">' + name + '<i onclick="Tab.closeTab(\'' + id + '\')">×</i></li>'));
+		$('#tabs').append($('<li class="cur" id="' + id + '"><span>' + name + '</span><i onclick="Tab.closeTab(\'' + id + '\')">×</i></li>'));
 		// 初始化编辑器
 		$('#code').append($('<div id="' + id + '_content" class="editor"><textarea id="' + id + '_editor" name="editor"></textarea></div>'));
 		$('#' + id + '_editor').val(fs.readFileSync(path, 'utf-8'));
 		editor_options.mode = type;
 		editor_options.id = id;
-		// 加入编辑器数组
-		editors.push(path);
+		// 编辑器对象
+		var editor = {};
+		editor.path = path;
 		// 显示当前
 		$('.editor').hide();
 		$('#' + id + '_content').show(0, function() {
-			CodeMirror.fromTextArea(document.getElementById(id + '_editor'), editor_options)
-			.on('drop', function(editor, e) {
+			editor.codeMirror = CodeMirror.fromTextArea(document.getElementById(id + '_editor'), editor_options);
+			editor.codeMirror.on('drop', function(editor, e) {
 				e.preventDefault();
 				e.stopPropagation();
 			});
-			//var myCodeMirror = CodeMirror.fromTextArea(document.getElementById('editor'), editor_options);
-			//CodeMirror.on("keyup", function (cm, event) {
-			//    if (!cm.state.completionActive && /*Enables keyboard navigation in autocomplete list*/
-			//        event.keyCode != 13) {        /*Enter - do not open autocomplete list just after item has been selected in it*/ 
-			//        CodeMirror.commands.autocomplete(cm, null, {completeSingle: false});
-			//    }
-			//});
+			editor.codeMirror.on("keyup", function (cm, event) {
+				if (!cm.state.completionActive &&
+					event.keyCode != 13 &&	// 回车
+					event.keyCode != 57 &&	// 左小括号
+					event.keyCode != 48 &&	// 右小括号
+					event.keyCode != 16 &&	// shift
+					event.keyCode != 219 &&	// 左大中括号
+					event.keyCode != 221 &&	// 右大中括号
+					event.keyCode != 186 &&	// ;
+					event.keyCode != 17 &&	// ctrl
+					event.keyCode != 122 &&	// F11
+					event.keyCode != 219 &&	// 退格键
+					event.keyCode != 9 &&	// tab
+					event.keyCode != 37 &&	// 左
+					event.keyCode != 38 &&	// 上
+					event.keyCode != 39 &&	// 右
+					event.keyCode != 40 &&	// 下
+					event.keyCode != 46 &&	// Dlete
+					event.keyCode != 20		// Caps Lock
+					) {
+					CodeMirror.commands.autocomplete(cm, null, {completeSingle: false});
+				}
+			});
 		});
+		// 异步加载高亮
+		if (Mode.getMode(path)) {
+			CodeMirror.autoLoadMode(editor.codeMirror, Mode.getMode(path));
+		}
+		// 加入编辑器数组
+		editors.push(editor);
 	},
 	closeTab: function(id) {
 		var i = editors.length;
 		while (i--) {
-			if (MD5(editors[i]) === id) {
+			if (MD5(editors[i].path) === id) {
 				// 删除选项卡
 				editors.splice(i, 1);
 				$('#' + id).remove();
@@ -173,13 +221,21 @@ window.Tab = {
 			}
 		}
 	},
+	closeAllTab: function() {
+		var i = editors.length;
+		while (i--) {
+			$('#' + MD5(editors[i].path)).remove();
+			$('#' + MD5(editors[i].path) + '_content').remove();
+		}
+		editors.length = 0;
+	},
 	focusTab: function(id) {
 		$('#tabs .cur').removeClass('cur');
 		$('#' + id).addClass('cur');
 		$('.editor').hide();
 		$('#' + id + '_content').show();
 	}
-}
+};
 $(function() {
 	$(document).on('click', '#tabs li', function () {
 		Tab.focusTab($(this).attr('id'));
