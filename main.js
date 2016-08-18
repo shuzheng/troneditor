@@ -42,8 +42,9 @@ function createWindow () {
 	});
 
 	// 监听页面加载完毕后显示窗口
-	mainWindow.webContents.on('did-finish-load', () => {
+	mainWindow.webContents.on('did-finish-load', (event) => {
 		mainWindow.show();
+		event.sender.send('openFiles', process.argv);
 	});
 
 	// 监听最大化按钮
