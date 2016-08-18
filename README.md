@@ -1,7 +1,7 @@
 # troneditor
 troneditor
 
-# 使用教程
+# How to use
 ```javascript
 npm install
 npm start
