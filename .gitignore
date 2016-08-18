@@ -1,4 +1,4 @@
 /node_modules/*
 /pack/app/*
 /pack/build/*
-/pack/temp/*
+/temp/*
