@@ -19,7 +19,27 @@ const {Tray} = electron;
 // 保持一个对于 window 对象的全局引用，如果你不这样做，
 // 当 JavaScript 对象被垃圾回收， window 会被自动地关闭。
 let mainWindow;
-var appIcon = null;
+
+// 防止多开
+var shouldQuit = app.makeSingleInstance(function(commandLine, workingDirectory) {
+	// 当另一个实例运行的时候，这里将会被调用，我们需要激活应用的窗口
+	if (mainWindow) {
+		if (mainWindow.isMinimized()) {
+			mainWindow.restore();
+		}
+		mainWindow.focus();
+		// 传递启动参数
+		mainWindow.webContents.send('openFiles', commandLine);
+	}
+	return true;
+});
+
+// 这个实例是多余的实例，需要退出
+if (shouldQuit) {
+	app.quit();
+	return;
+}
+
 function createWindow () {
 	// 创建浏览器窗口。
 	mainWindow = new BrowserWindow({
@@ -38,7 +58,7 @@ function createWindow () {
 	mainWindow.loadURL(`file://${__dirname}/main.html`);
 
 	// 启用开发工具。
-	mainWindow.webContents.openDevTools();
+	//mainWindow.webContents.openDevTools();
 
 	// 当 window 被关闭，这个事件会被触发。
 	mainWindow.on('closed', (event) => {
@@ -51,7 +71,6 @@ function createWindow () {
 	// 监听页面加载完毕后显示窗口
 	mainWindow.webContents.on('did-finish-load', (event) => {
 		mainWindow.show();
-		console.log(process.argv);
 		event.sender.send('openFiles', process.argv);
 	});
 
@@ -62,15 +81,6 @@ function createWindow () {
 	mainWindow.on('unmaximize', (event) => {
 		event.sender.send('unmax');
 	});
-	// 托盘图标
-	/*appIcon = new Tray('resources/icons/icon_48.ico');
-	var contextMenu = Menu.buildFromTemplate([
-		{label: '退出',click: function() {
-			app.quit();
-		}}
-	]);
-	appIcon.setToolTip('troneditor');
-	appIcon.setContextMenu(contextMenu);*/
 }
 
 // Electron 会在初始化后并准备创建浏览器窗口时，调用这个函数。
