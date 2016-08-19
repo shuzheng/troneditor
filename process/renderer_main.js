@@ -14,3 +14,15 @@ require('./renderer_main_menubar');
 require('./renderer_main_editor');
 // ============================ 全局快捷键操作 ============================/
 require('./renderer_main_shortcut');
+// ============================ 根据文件路径获取文件名和文件类型 ============================/
+const Mode = require('./utils_mode');
+// ============================ 通信操作 ============================/
+// 启动时打开文件
+ipcRenderer.once('openFiles', function(event, filenames) {
+	console.log(filenames);
+	for (var i in filenames) {
+		if (Mode.getSuffix(filenames[i]) != 'exe' && Mode.getSuffix(filenames[i]) != '') {
+			Tab.openTab(filenames[i], Mode.getName(filenames[i]), Mode.getType(filenames[i]));
+		}
+	}
+});

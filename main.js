@@ -11,11 +11,15 @@ const {ipcMain} = electron;
 const {dialog} = electron;
 // 快捷键
 const {globalShortcut} = electron;
+// 菜单
+const {Menu} = electron;
+// 托盘图标
+const {Tray} = electron;
 // ============================ 主窗口 ============================
 // 保持一个对于 window 对象的全局引用，如果你不这样做，
 // 当 JavaScript 对象被垃圾回收， window 会被自动地关闭。
 let mainWindow;
-
+var appIcon = null;
 function createWindow () {
 	// 创建浏览器窗口。
 	mainWindow = new BrowserWindow({
@@ -24,7 +28,10 @@ function createWindow () {
 		minWidth: 600,
 		minHeight: 600,
 		frame: false,
-		show: false
+		show: false,
+		webPreferences: {
+			defaultFontFamily: 'serif'
+		}
 	});
 
 	// 加载应用的 main.html。
@@ -44,6 +51,7 @@ function createWindow () {
 	// 监听页面加载完毕后显示窗口
 	mainWindow.webContents.on('did-finish-load', (event) => {
 		mainWindow.show();
+		console.log(process.argv);
 		event.sender.send('openFiles', process.argv);
 	});
 
@@ -54,6 +62,15 @@ function createWindow () {
 	mainWindow.on('unmaximize', (event) => {
 		event.sender.send('unmax');
 	});
+	// 托盘图标
+	/*appIcon = new Tray('resources/icons/icon_48.ico');
+	var contextMenu = Menu.buildFromTemplate([
+		{label: '退出',click: function() {
+			app.quit();
+		}}
+	]);
+	appIcon.setToolTip('troneditor');
+	appIcon.setContextMenu(contextMenu);*/
 }
 
 // Electron 会在初始化后并准备创建浏览器窗口时，调用这个函数。

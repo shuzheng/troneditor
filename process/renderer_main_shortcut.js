@@ -23,9 +23,3 @@ ipcRenderer.on('open', function(event) {
 ipcRenderer.on('close', function(event) {
 	Menu_functions.close();
 });
-
-// 关闭当前文件
-ipcRenderer.on('openFiles', files, function(event) {
-	alert(files);
-	console.log(files);
-});
