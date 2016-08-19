@@ -18,8 +18,7 @@ require('./renderer_main_shortcut');
 const Mode = require('./utils_mode');
 // ============================ 通信操作 ============================/
 // 启动时打开文件
-ipcRenderer.once('openFiles', function(event, filenames) {
-	console.log(filenames);
+ipcRenderer.on('openFiles', function(event, filenames) {
 	for (var i in filenames) {
 		if (Mode.getSuffix(filenames[i]) != 'exe' && Mode.getSuffix(filenames[i]) != '') {
 			Tab.openTab(filenames[i], Mode.getName(filenames[i]), Mode.getType(filenames[i]));
