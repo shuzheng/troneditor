@@ -113,6 +113,6 @@ $(function() {
 				message: 'Copyright © 2016, Zhang Shuzheng All rights reserved.',
 				buttons: []
 			});
-		}, 20);
+		}, 50);
 	});
 });
