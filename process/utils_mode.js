@@ -4,7 +4,7 @@ var Mode = {
 		path = path.replace(new RegExp('\\\\','gm'),'/');
 		return path.substring(path.lastIndexOf('/') + 1);
 	},
-	getType: function(path) {
+	getSuffix: function(path) {
 		var name = this.getName(path);
 		// 无后缀
 		if (name.lastIndexOf('.') < 0) {
@@ -12,6 +12,10 @@ var Mode = {
 		}
 		// 根据后缀名返回mode类型
 		var suffix = path.substring(path.lastIndexOf('.') + 1);
+		return suffix;
+	},
+	getType: function(path) {
+		var suffix = this.getSuffix(path);
 		if (suffix == 'js') {
 			return 'text/javascript';
 		} else if (suffix == 'css') {
