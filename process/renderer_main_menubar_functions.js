@@ -19,6 +19,9 @@ var Menu_functions = {
 		var path = electron.remote.app.getAppPath() + '/temp/';
 		var name = new Date().getTime();
 		var file = path + name;
+		// 新建选项卡
+		Tab.openTab(file, 'NewFile', Mode.getType(file));
+		/*
 		// 如果不存在临时文件夹，则创建
 		if (!fs.existsSync(path)) {
 			fs.mkdir(path, function(err) {
@@ -33,7 +36,7 @@ var Menu_functions = {
 				// 新建选项卡
 				Tab.openTab(file, 'NewFile', Mode.getType(file));
 			}
-		});
+		});*/
 	},
 	// 打开文件
 	open: function() {

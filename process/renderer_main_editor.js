@@ -81,7 +81,7 @@ var editor_options = {
 									// 修改打开文件路径为最新路径
 									editors[i].path = filename;
 									// 删除临时文件
-									fs.unlink(path, function() {});
+									//fs.unlink(path, function() {});
 								});
 								return false;
 							}
@@ -164,7 +164,13 @@ window.Tab = {
 		$('#tabs').append($('<li class="cur" id="' + id + '"><span>' + name + '</span><i onclick="Tab.closeTab(\'' + id + '\')">×</i></li>'));
 		// 初始化编辑器
 		$('#code').append($('<div id="' + id + '_content" class="editor"><textarea id="' + id + '_editor" name="editor"></textarea></div>'));
-		$('#' + id + '_editor').val(fs.readFileSync(path, 'utf-8'));
+		// 初始化编辑器内容，新建文件内容为空
+		if (!fs.existsSync(path)) {
+			$('#' + id + '_editor').val('');
+		} else {
+			$('#' + id + '_editor').val(fs.readFileSync(path, 'utf-8'));
+		}
+		// 编辑器属性
 		editor_options.mode = type;
 		editor_options.id = id;
 		// 编辑器对象
@@ -180,23 +186,11 @@ window.Tab = {
 			});
 			editor.codeMirror.on("keyup", function (cm, event) {
 				if (!cm.state.completionActive &&
-					event.keyCode != 13 &&	// 回车
-					event.keyCode != 57 &&	// 左小括号
-					event.keyCode != 48 &&	// 右小括号
-					event.keyCode != 16 &&	// shift
-					event.keyCode != 219 &&	// 左大中括号
-					event.keyCode != 221 &&	// 右大中括号
-					event.keyCode != 186 &&	// ;
-					event.keyCode != 17 &&	// ctrl
-					event.keyCode != 122 &&	// F11
-					event.keyCode != 219 &&	// 退格键
-					event.keyCode != 9 &&	// tab
-					event.keyCode != 37 &&	// 左
-					event.keyCode != 38 &&	// 上
-					event.keyCode != 39 &&	// 右
-					event.keyCode != 40 &&	// 下
-					event.keyCode != 46 &&	// Dlete
-					event.keyCode != 20		// Caps Lock
+					(event.keyCode >= 65 && event.keyCode <= 90) &&		// A-Z
+					(event.keyCode >= 96 && event.keyCode <= 105) &&	// 0-9
+					event.keyCode == 110 &&		// .
+					event.keyCode == 32 &&		// 空格
+					event.keyCode == 188		// <
 					) {
 					CodeMirror.commands.autocomplete(cm, null, {completeSingle: false});
 				}
