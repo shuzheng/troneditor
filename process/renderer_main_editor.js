@@ -175,6 +175,7 @@ window.Tab = {
 		editor_options.id = id;
 		// 编辑器对象
 		var editor = {};
+		editor.modified = 0;
 		editor.path = path;
 		// 显示当前
 		$('.editor').hide();
@@ -185,13 +186,16 @@ window.Tab = {
 				e.stopPropagation();
 			});
 			editor.codeMirror.on("keyup", function (cm, event) {
+				console.log(event.keyCode);
 				if (!cm.state.completionActive &&
-					(event.keyCode >= 65 && event.keyCode <= 90) &&		// A-Z
-					(event.keyCode >= 96 && event.keyCode <= 105) &&	// 0-9
-					event.keyCode == 110 &&		// .
-					event.keyCode == 32 &&		// 空格
+					((event.keyCode >= 65 && event.keyCode <= 90) ||		// A-Z
+					(event.keyCode >= 96 && event.keyCode <= 105) ||		// 0-9(小键盘)
+					(event.keyCode >= 48 && event.keyCode <= 57) ||			// 0-9(控制键盘)
+					(event.keyCode == 190 || event.keyCode == 110) ||		// .
+					event.keyCode == 32 ||		// 空格
+					//event.keyCode == 186 ||		// :
 					event.keyCode == 188		// <
-					) {
+					)) {
 					CodeMirror.commands.autocomplete(cm, null, {completeSingle: false});
 				}
 			});
