@@ -1,4 +1,5 @@
 /node_modules/*
 /pack/app/*
 /pack/build/*
+/pack/jingjian/*
 /temp/*
