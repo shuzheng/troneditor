@@ -185,8 +185,9 @@ window.Tab = {
 				e.preventDefault();
 				e.stopPropagation();
 			});
-			editor.codeMirror.on("keyup", function (cm, event) {
-				console.log(event.keyCode);
+			// 自动补全快捷键
+			editor.codeMirror.on('keyup', function (cm, event) {
+				//console.log(event.keyCode);
 				if (!cm.state.completionActive &&
 					((event.keyCode >= 65 && event.keyCode <= 90) ||		// A-Z
 					(event.keyCode >= 96 && event.keyCode <= 105) ||		// 0-9(小键盘)
@@ -197,6 +198,15 @@ window.Tab = {
 					event.keyCode == 188		// <
 					)) {
 					CodeMirror.commands.autocomplete(cm, null, {completeSingle: false});
+				}
+			});
+			// 监听修改状态
+			editor.codeMirror.on('change', function (cm, changeObj) {
+				editor.modified = 1;
+				// 有后缀文件，可提示是否保存，无后缀文件不提示
+				var $tab_name = $('#' + MD5(editor.path) + ' span');
+				if ($tab_name.text().indexOf('*') < 0 ) {
+					$tab_name.text('* ' + $tab_name.text());
 				}
 			});
 		});
@@ -211,6 +221,13 @@ window.Tab = {
 		var i = editors.length;
 		while (i--) {
 			if (MD5(editors[i].path) === id) {
+				// 判断修改状态
+				if (editors[i].modified == 1) {
+					if (confirm('确认保存吗？')) {
+						// TODO
+						alert('saved');
+					}
+				}
 				// 删除选项卡
 				editors.splice(i, 1);
 				$('#' + id).remove();
