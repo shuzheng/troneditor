@@ -46,45 +46,49 @@ var editor_options = {
 			//var doc = editor.getDoc();
 			//console.log(doc.undo());
 			//console.log(doc.redo());
-			// 获取文件路径
+			// 获取当前文件
 			var path = '';
+			var editor;
 			var minPath = '';
 			var i = editors.length;
 			while (i--) {
 				if (MD5(editors[i].path) === cm.options.id) {
 					path = editors[i].path;
-					// 有后缀
-					if (path.lastIndexOf('.') > 0) {
-						var basePath = path.substring(0, path.lastIndexOf('.'));
-						var suffix = path.substring(path.lastIndexOf('.'));
-						minPath = basePath + '.min' + suffix;
-					} else {
+					editor = editors[i];
+					// 打开文件保存
+					if (editor.newfile == 0) {
+						// 如果有后缀的文件，拼接min文件路径
+						if (path.lastIndexOf('.') > 0) {
+							var basePath = path.substring(0, path.lastIndexOf('.'));
+							var suffix = path.substring(path.lastIndexOf('.'));
+							minPath = basePath + '.min' + suffix;
+						}
+					}
+					// 新建文件保存
+					else {
 						electron.remote.dialog.showSaveDialog({
 							title: 'Save As...'
 						}, function(filename) {
-							if (filename) {
-								// 保存新文件
-								fs.writeFile(filename, cm.getValue(), 'utf-8', function() {
-									// 修改标签id为新id
-									var newId = MD5(filename);
-									$('#' + MD5(editors[i].path)).attr('id', newId);
-									$('#' + MD5(editors[i].path) + '_content').attr('id', newId + '_content');
-									// 修改编辑器mode
-									cm.options.mode = Mode.getType(filename);
-									CodeMirror.autoLoadMode(editors[i].codeMirror, Mode.getMode(filename));
-									// 修改编辑器id
-									cm.options.id = newId;
-									// 修改标签文件名
-									$('#' + newId + ' span').text(Mode.getName(filename));
-									// 修改标签关闭事件
-									$('#' + newId + ' i').attr('onclick', 'Tab.closeTab(\'' + newId + '\')');
-									// 修改打开文件路径为最新路径
-									editors[i].path = filename;
-									// 删除临时文件
-									//fs.unlink(path, function() {});
-								});
+							// 取消保存
+							if (!filename) {
 								return false;
 							}
+							// 保存新文件
+							fs.writeFile(filename, cm.getValue(), 'utf-8', function() {
+								// 修改标签id为新id
+								var newId = MD5(filename);
+								$('#' + MD5(editor.path)).attr('id', newId);
+								$('#' + MD5(editor.path) + '_content').attr('id', newId + '_content');
+								// 修改编辑器id和mode
+								cm.options.id = newId;
+								cm.options.mode = Mode.getType(filename);
+								CodeMirror.autoLoadMode(editor.codeMirror, Mode.getMode(filename));
+								// 修改标签
+								$('#' + newId + ' span').text(Mode.getName(filename));
+								$('#' + newId + ' i').attr('onclick', 'Tab.closeTab(\'' + newId + '\')');
+								// 修改打开文件路径为最新路径
+								editor.path = filename;
+							});
 						});
 					}
 					break;
@@ -97,16 +101,12 @@ var editor_options = {
 				// js压缩
 				if (cm.options.mode == 'application/javascript' || cm.options.mode == 'text/javascript') {
 					var minValue = UglifyJS.minify(value, {fromString: true, warnings: true}).code;
-					fs.writeFile(minPath, minValue, 'utf-8', function() {
-						// saved
-					});
+					fs.writeFile(minPath, minValue, 'utf-8');
 				}
 				// css压缩
 				if (cm.options.mode == 'text/css') {
 					var minValue = new CleanCSS().minify(value).styles;
-					fs.writeFile(minPath, minValue, 'utf-8', function() {
-						// saved
-					});
+					fs.writeFile(minPath, minValue, 'utf-8');
 				}
 				// html压缩
 				if (cm.options.mode == 'text/html') {
@@ -116,10 +116,12 @@ var editor_options = {
 						minifyJS:true,
 						minifyCSS:true
 					});
-					fs.writeFile(minPath, minValue, 'utf-8', function() {
-						// saved
-					});
+					fs.writeFile(minPath, minValue, 'utf-8');
 				}
+				// 修改当前文件修改状态为未修改，并去掉标题*
+				editor.modified = 0;
+				var $tab_name = $('#' + MD5(path) + ' span');
+				$tab_name.text($tab_name.text().replace('\*', ''));
 			});
 		}
 	},
@@ -142,7 +144,7 @@ $(document).bind("drop", function (e) {
 astModified:1466996183937
 lastModifiedDate:Mon Jun 27 2016 10:56:23 GMT+0800 (中国标准时间)
 name:"CMD.js"
-path:"C:\Users\shzuheng\Desktop\CMD.js"
+path:"C:\Users\Desktop\CMD.js"
 size:144
 type:"application/javascript"
 webkitRelativePath:""
@@ -159,6 +161,7 @@ window.Tab = {
 			}
 		}
 		// 新增选项卡，打开文件
+		var editor = {};
 		var id = MD5(path);
 		$('#tabs .cur').removeClass('cur');
 		$('#tabs').append($('<li class="cur" id="' + id + '"><span>' + name + '</span><i onclick="Tab.closeTab(\'' + id + '\')">×</i></li>'));
@@ -167,14 +170,15 @@ window.Tab = {
 		// 初始化编辑器内容，新建文件内容为空
 		if (!fs.existsSync(path)) {
 			$('#' + id + '_editor').val('');
+			editor.newfile = 1;
 		} else {
 			$('#' + id + '_editor').val(fs.readFileSync(path, 'utf-8'));
+			editor.newfile = 0;
 		}
 		// 编辑器属性
 		editor_options.mode = type;
 		editor_options.id = id;
 		// 编辑器对象
-		var editor = {};
 		editor.modified = 0;
 		editor.path = path;
 		// 显示当前
