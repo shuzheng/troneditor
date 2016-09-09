@@ -88,6 +88,8 @@ var editor_options = {
 								$('#' + newId + ' i').attr('onclick', 'Tab.closeTab(\'' + newId + '\')');
 								// 修改打开文件路径为最新路径
 								editor.path = filename;
+								// 修改当前文件类型为打开文件
+								editor.newfile = 0;
 							});
 						});
 					}
@@ -191,7 +193,7 @@ window.Tab = {
 			});
 			// 自动补全快捷键
 			editor.codeMirror.on('keyup', function (cm, event) {
-				//console.log(event.keyCode);
+				console.log(event.keyCode);
 				if (!cm.state.completionActive &&
 					((event.keyCode >= 65 && event.keyCode <= 90) ||		// A-Z
 					(event.keyCode >= 96 && event.keyCode <= 105) ||		// 0-9(小键盘)
